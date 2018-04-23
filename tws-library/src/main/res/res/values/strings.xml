@@ -1,0 +1,116 @@
+<resources>
+    <!--DON'T TRANSLATE-->
+    <string xmlns:tools="http://schemas.android.com/tools" name="belvedere_sdk_fpa_suffix" translatable="false" tools:override="true">.belvedere.attachments</string>
+    <!--DON'T TRANSLATE-->
+    <string name="app_name" translatable="false">Earin M-2</string>
+
+    <string name="allow_permission">You need to allow this permission to use the app</string>
+
+    <string name="still_looking">...still looking</string>
+    <string name="continue_button">Continue</string>
+    <string name="looking_for_products">Looking for nearby\nEarin products...</string>
+
+    <string name="help">Help</string>
+    <string name="connect">Connect</string>
+    <string name="make_sure_product_is_paired">Make sure that your Earin product is paired in your devices Bluetooth Settings.</string>
+    <string name="rename_unit">Rename Earphones</string>
+    <string name="support_pages">Support Pages</string>
+    <string name="support_chat">Support Chat</string>
+    <string name="online_store">Online Store</string>
+
+    <string name="battery">Battery</string>
+    <string name="about">About</string>
+    <string name="balance">Balance</string>
+    <string name="gain">Gain</string>
+    <string name="mono_mode">MONO</string>
+    <string name="bass_boost">Bass Boost</string>
+    <string name="transparency">Transparency</string>
+    <string name="audio_transparency">AUDIO TRANSPARENCY</string>
+
+    <string name="update_available">Update available</string>
+    <string name="click_here">Click Here</string>
+    <string name="send_diagnostics">Send diagnostics</string>
+    <string name="take_photo">Take photo</string>
+    <string name="chose_from_gallery">Choose photo from gallery</string>
+
+    <string name="snackbar_connection">No connection</string>
+    <string name="snackbar_timeout">Timeout</string>
+    <string name="type_here">Type here...</string>
+    <string name="update_ready_to_install">Update ready to install</string>
+    <string name="update">Update</string>
+    <string name="ask_me_later">Ask me later</string>
+    <string name="update_successful">Update successful!</string>
+    <string name="reboot_earphones">Reboot Earphones</string>
+    <string name="rename_failed">Rename Failed!</string>
+    <string name="rename_success">Rename Success!</string>
+
+    <string name="downloading_update">Downloading update...</string>
+    <string name="transferring_update">Transferring update to %1$s headphone...</string>
+    <string name="first">first</string>
+    <string name="second">second</string>
+    <string name="downloading_update_description">You can navigate away from the Earin app while download is in progress.</string>
+    <string name="transferring_update_description">You can navigate away from the Earin app while transfer is in progress.</string>
+    <string name="minutes_remaining">Please standby.\nThis process takes %d minutes.</string>
+    <string name="complete_update">Finalize update</string>
+    <string name="complete_update_description">The reboot takes 1-2 minutes and your earphones will loose connection.</string>
+    <string name="complete_update_now">Reboot Earphones</string>
+    <string name="completing_update">Completing update...</string>
+    <string name="update_completed">Update completed</string>
+    <string name="update_completed_description">Your earphones are up to date!</string>
+    <string name="update_completed_ok">OK</string>
+
+    <string name="battery_too_low">Battery too low</string>
+    <string name="battery_too_low_description">Please charge the headphones to %d \%% to finalize the upgrade!</string>
+
+
+    <string name="no_connection_chat">You are currently offline.\nPlease activate your internet connection to access the online store.</string>
+    <string name="no_connection_store">You are currently offline.\nPlease activate your internet connection to contact customer support.</string>
+    <string name="no_connection_support">You are currently offline.\nPlease activate your internet connection to access the support pages.</string>
+    <string name="support_chat_intro_message">Welcome to Earin Support Chat! How can we help you?</string>
+    <string name="chat_diagnostics_sent">Diagnostics data has been sent for device %1$s</string>
+    <string name="chat_diagnostics_sending_fail">Diagnostics data sending failed!</string>
+    <string name="send_message">Send message</string>
+    <string name="e_mail_address">E-mail address</string>
+    <string name="message">Message</string>
+    <string name="name">Name</string>
+    <string name="email_a_message">Email a message</string>
+    <string name="no_agents_description">Sorry, there are no agents available to chat. Please try again later or email us a message.</string>
+    <string name="no_agants_available">No agents available</string>
+
+    <string name="enter_name">Please enter a name!</string>
+    <string name="enter_message">Please enter a message!</string>
+    <string name="enter_email">Please enter a correct email!</string>
+
+    <string name="chat_thank_you">Thank you!</string>
+    <string name="chat_thank_you_message">One of our agents will email you soon.</string>
+
+    <string name="about_app_version">App version</string>
+    <string name="about_firmware_version">CSR Version: %1$s NXP Version: %2$s</string>
+    <string name="about_text_1">Earin® creates audio products of extraordinary quality for people who love music.</string>
+    <string name="about_text_2">Earin was founded in 2013 with a simple aim, to create high fidelity audio devices without compromise. Located in Malmo, Sweden, Earin’s dedicated team of audio technicians, engineers and industrial designers are continually exploring the potential of sound and technology.</string>
+    <string name="about_text_3">Earin® is the new definition for wireless audio.</string>
+    <string name="enable_your_internet_connection">Enable your internet connection.</string>
+    <string name="version">Version:</string>
+    <string name="send_earphone_diagnostics_data">Send earphone diagnostics data</string>
+    <string name="vol_plus">Vol +</string>
+    <string name="vol_minus">Vol -</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="auto">Auto</string>
+    <string name="power_off_earphones">Power off earphones?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="transparency_help">On\nTransparency is always on\n\nOff\nTransparency is off, except for phone calls and voice assistant\n\nAuto\nTransparency toggles automatically during playback and pause</string>
+    <string name="transparency_on">On</string>
+    <string name="transparency_on_description">Transparency is always on</string>
+    <string name="transparency_off_description">Transparency is off, except for phone calls and voice assistant</string>
+    <string name="transparency_auto_description">Transparency toggles automatically during playback and pause</string>
+    <string name="transparency_auto">Auto</string>
+    <string name="transparency_off">Off</string>
+    <string name="noise_plus">Noise +</string>
+    <string name="noise_minus">Noise -</string>
+    <string name="beta_program">Beta program</string>
+    <string name="join_beta_program"><u>Join Earin Beta Program</u></string>
+
+</resources>

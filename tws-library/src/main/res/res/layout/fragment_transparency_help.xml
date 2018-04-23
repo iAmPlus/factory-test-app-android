@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialogContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background85"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/readyToInstallLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/chat_input_shape"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="36dp"
+            android:text="@string/help"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextExtraLarge" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_on"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_on_description"
+            android:layout_marginBottom="16dp"
+            android:textAppearance="@style/TextSmall" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_off"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextSmall" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_off_description"
+            android:layout_marginBottom="16dp"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_auto"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:textAlignment="center"
+            android:text="@string/transparency_auto_description"
+            android:layout_marginBottom="32dp"
+            android:textAppearance="@style/TextSmall" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black30" />
+
+        <TextView
+            android:id="@+id/closeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:text="@string/close"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

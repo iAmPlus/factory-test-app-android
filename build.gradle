@@ -1,0 +1,55 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha09'
+        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        google()
+        maven { url 'https://zendesk.jfrog.io/zendesk/repo' }
+        maven { url 'https://zendesk.artifactoryonline.com/zendesk/repo' }
+    }
+}
+
+project.ext {
+    compileSdkVersion = 27
+    buildToolsVersion = "26.0.2"
+    targetSdkVersion = 21
+    minSdkVersion = 21
+
+    appVersionCode = 48
+    appVersionName = "4.8"
+
+    // Dependencies
+    junitVersion = "4.12"
+    supportCoreUtilsVersion = "27.0.0"
+    supportAppCompat7Version = "27.0.0"
+    supportDesignVersion = "27.0.0"
+    supportCardviewVersion = "27.0.0"
+    supportGridLayoutVersion = "27.0.0"
+    supportRecyclerViewVersion = "27.0.0"
+    gsonVersion = "2.7"
+    exoplayerVersion = "2.6.0"
+    exoplayerOkhttpVersion = "2.6.0"
+    exoplyaerMediaSessionVersion= "2.6.0"
+    googleOauth2HttpVersion = "0.6.0"
+    apacheCommonsLangVersion = "3.4"
+    okhttpVersion = "3.5.0"
+    playServicesVersion = "11.0.0"
+    daggerVersion = "2.9"
+    daggerCompilerVersion = "2.9"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

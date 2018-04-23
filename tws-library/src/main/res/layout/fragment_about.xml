@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background85"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/about_logo_height"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="46dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/appVersionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/about_app_version"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmallest" />
+
+            <TextView
+                android:id="@+id/firmwareVersionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="36dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmallest" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:text="@string/about_text_1"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmall" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:text="@string/about_text_2"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmall" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="40dp"
+                android:text="@string/about_text_3"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmall" />
+
+            <TextView
+                android:id="@+id/betaProgramTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:text="@string/join_beta_program"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextSmallest" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

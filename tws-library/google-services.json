@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "154365009711",
+    "firebase_url": "https://earin-a1902.firebaseio.com",
+    "project_id": "earin-a1902",
+    "storage_bucket": "earin-a1902.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154365009711:android:0211101a6b527374",
+        "android_client_info": {
+          "package_name": "com.iamplus.earin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154365009711-a0cc4lf496jvrcf55jihh9r0208catdr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcWW0uDiN-El8tc-Fn-JLHE-uHH8sDERQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

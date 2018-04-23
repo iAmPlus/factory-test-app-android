@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/container"
+    android:background="@color/background"
+    tools:context=".ui.activities.dash.DashM1Activity">
+
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="46dp"
+        android:layout_margin="46dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/transparencyLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <LinearLayout
+                android:id="@+id/balanceLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_marginBottom="40dp">
+
+                <View
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_shape"
+                    android:backgroundTint="@color/darkGrey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:textAppearance="@style/TextSmall"
+                    android:text="@string/balance"
+                    android:textAllCaps="true"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/gainLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless">
+
+                <View
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_shape"
+                    android:backgroundTint="@color/darkGrey" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:textAppearance="@style/TextSmall"
+                    android:text="@string/gain"
+                    android:textAllCaps="true"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/transparencyLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="46dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <RelativeLayout
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:background="@drawable/circle_shape"
+            android:backgroundTint="@color/darkGrey">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textAppearance="@style/TextSmall"
+                android:text="@string/transparency"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_settings"
+        android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_shut_down"
+        android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+</android.support.constraint.ConstraintLayout>

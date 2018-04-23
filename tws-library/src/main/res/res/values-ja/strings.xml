@@ -1,0 +1,116 @@
+<resources>
+
+    <string name="allow_permission">このアプリの使用を許可します</string>
+
+    <string name="still_looking">探してます</string>
+    <string name="continue_button">次へ</string>
+    <string name="looking_for_products">近くのEarin®を探してます</string>
+
+    <string name="help">ヘルプ</string>
+    <string name="connect">接続</string>
+    <string name="make_sure_product_is_paired">Earin®の接続をデバイスのBluetooth設定画面でご確認下さい</string>
+    <string name="rename_unit">イヤフォンのリネーム</string>
+    <string name="support_pages">サポートページ</string>
+    <string name="support_chat">サポートチャット</string>
+    <string name="online_store">オンラインストア</string>
+
+    <string name="battery">バッテリー</string>
+    <string name="about">説明</string>
+    <string name="balance">バランス</string>
+    <string name="gain">音量</string>
+    <string name="mono_mode">モノラル</string>
+    <string name="bass_boost">ベースブースト</string>
+    <string name="transparency">トランスパレンシー</string>
+    <string name="audio_transparency">オーディオトランスパレンシー</string>
+
+    <string name="update_available">アップデート可能</string>
+    <string name="click_here">ここをクリック</string>
+    <string name="send_diagnostics">診断を送る</string>
+    <string name="take_photo">写真を撮る</string>
+    <string name="chose_from_gallery">ギャラリーから写真を選択</string>
+
+    <string name="snackbar_connection">接続なし</string>
+    <string name="snackbar_timeout">時間切れ</string>
+    <string name="type_here">入力して下さい</string>
+    <string name="update_ready_to_install">インストールのアップデート準備が出来ました</string>
+    <string name="update">アップデート</string>
+    <string name="ask_me_later">質問する</string>
+    <string name="update_successful">アップデート成功</string>
+    <string name="reboot_earphones">イヤフォンの再起動</string>
+    <string name="rename_failed">リネーム失敗</string>
+    <string name="rename_success">リネーム完了</string>
+
+    <string name="downloading_update">ダウンロード　アップデート</string>
+    <string name="transferring_update">イヤフォンへのアップデート%1$s転送中</string>
+    <string name="first">ファーストイヤフォン</string>
+    <string name="second">セカンドイヤフォン</string>
+    <string name="downloading_update_description">Earin® のアプリをダウンロード中はそのままでお願いします</string>
+    <string name="transferring_update_description">Earin® のアプリを転送中はそのままでお願いします</string>
+    <string name="minutes_remaining"> スタンバイ願います。作業完了まで%d 分</string>
+    <string name="complete_update">アップデート更新</string>
+    <string name="complete_update_description">再起動に1-2分かかります。その間は接続が切れます</string>
+    <string name="complete_update_now">イヤフォン再起動</string>
+    <string name="completing_update">アップデート完了作業中</string>
+    <string name="update_completed">アップデート完了</string>
+    <string name="update_completed_description">イヤフォンのアップデートが完了しました！</string>
+    <string name="update_completed_ok">OK</string>
+
+    <string name="battery_too_low">バッテリー残量が少ないです</string>
+    <string name="battery_too_low_description">アップデートが更新するまでイヤフォンを%d \%%充電願います </string>
+
+
+    <string name="no_connection_chat">現在オフラインで作業中です。オンラインストアにアクセス願います</string>
+    <string name="no_connection_store">現在オフラインで作業中です。カスタマーサポートに接続願います</string>
+    <string name="no_connection_support">現在オフラインで作業中です。サポートページへ接続願います</string>
+    <string name="support_chat_intro_message">Welcome to Earin Support Chat! How can we help you?</string>
+    <string name="chat_diagnostics_sent">デバイス用の診断データを%1$s送信</string>
+    <string name="chat_diagnostics_sending_fail">診断データの送信失敗</string>
+    <string name="send_message">メッセージを送る</string>
+    <string name="e_mail_address">E-mail アドレス</string>
+    <string name="message">メッセージ</string>
+    <string name="name">名前</string>
+    <string name="email_a_message">メッセージをメール</string>
+    <string name="no_agents_description">申し訳ございません。現在チャットの担当者が不在です。時間をおいて再度お願いするか、メールにてメッセージをお願いします</string>
+    <string name="no_agants_available">担当者が不在中です</string>
+
+    <string name="enter_name">お名前を記入願います</string>
+    <string name="enter_message">メッセージを入れて下さい</string>
+    <string name="enter_email">正しいE-Mailを入力願います</string>
+
+    <string name="chat_thank_you">有難うございます！</string>
+    <string name="chat_thank_you_message">担当者より追ってメールを差し上げます</string>
+
+    <string name="about_app_version">App バージョン</string>
+    <string name="about_firmware_version">CSR® バージョン： %1$s NXP® バージョン： %2$s</string>
+    <string name="about_text_1">Earin® は音楽愛好者向けに高品質の製品を提供します</string>
+    <string name="about_text_2">Earin® は2013年に妥協なき高品質オーディオ機器の開発を目指し創業。
+本社はスウェーデンのマルメ市。Earinのオーディオ技術者とデザイナーは
+常に良いサウンドとテクノロジーを探求してます。</string>
+    <string name="about_text_3">Earin®はワイヤレスオーディオの新しい定義です</string>
+    <string name="enable_your_internet_connection">インターネット接続して下さい</string>
+    <string name="version">バージョン</string>
+    <string name="send_earphone_diagnostics_data">イヤフォンの診断データを送信</string>
+    <string name="vol_plus">音量＋</string>
+    <string name="vol_minus">音量ー</string>
+    <string name="on">オン</string>
+    <string name="off">オフ</string>
+    <string name="auto">オート</string>
+    <string name="power_off_earphones">イヤフォンの電源をオフにしますか？</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="close">クローズ</string>
+    <string name="transparency_help">"On: トランスパレンシーモードは常にOｎ　Off: トランスパレンシーモードは
+Off 但し、通話と音声アシスタント以外　Auto：トランスパレンシーモード
+の自動切換え　音楽の再生とポーズ中"</string>
+    <string name="transparency_on">トランスパレンシーモードを常時オン</string>
+    <string name="transparency_on_description">トランスパレンシーモードを常時オン</string>
+    <string name="transparency_off_description">トランスパレンシーモードをオフ、但し通話と音声アシスタント以外</string>
+    <string name="transparency_auto_description">トランスパレンシーモードの自動切り替え　音楽再生とポーズ中</string>
+    <string name="transparency_auto">オン</string>
+    <string name="transparency_off">オフ</string>
+    <string name="noise_plus">ノイズ＋</string>
+    <string name="noise_minus">ノイズー</string>
+    <string name="beta_program">Beta　プログラム</string>
+    <string name="join_beta_program"><u>Earin® のBetaプログラムに参加する</u></string>
+
+</resources>

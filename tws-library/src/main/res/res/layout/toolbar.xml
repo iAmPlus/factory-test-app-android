@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/leftImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_menu"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/toolbarTitleTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:letterSpacing="0.2"
+        android:lines="1"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextMedium"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/toolbarTitleImage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1"
+        android:src="@drawable/logo" />
+
+    <ImageButton
+        android:id="@+id/rightImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_power_off"
+        android:visibility="invisible" />
+
+</LinearLayout>

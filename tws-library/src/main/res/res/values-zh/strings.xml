@@ -1,0 +1,111 @@
+<resources>
+    <string name="allow_permission">需要你允许以下功能</string>
+
+    <string name="still_looking">搜寻中...</string>
+    <string name="continue_button">继续</string>
+    <string name="looking_for_products">正在搜寻附近的Earin®产品</string>
+
+    <string name="help">帮助</string>
+    <string name="connect">连接</string>
+    <string name="make_sure_product_is_paired">请确保Earin®产品已与装置的蓝牙连上</string>
+    <string name="rename_unit">更改耳机名称</string>
+    <string name="support_pages">支援网页</string>
+    <string name="support_chat">客服</string>
+    <string name="online_store">网店</string>
+
+    <string name="battery">电量</string>
+    <string name="about">关於</string>
+    <string name="balance">平衡</string>
+    <string name="gain">增益</string>
+    <string name="mono_mode">单耳模式</string>
+    <string name="bass_boost">低音提升</string>
+    <string name="transparency">环境音频微调</string>
+    <string name="audio_transparency">环境音频模式</string>
+
+    <string name="update_available">更新软件</string>
+    <string name="click_here">请按此</string>
+    <string name="send_diagnostics">发送检测讯息</string>
+    <string name="take_photo">拍照</string>
+    <string name="chose_from_gallery">从图库中选取相片</string>
+
+    <string name="snackbar_connection">没有连接</string>
+    <string name="snackbar_timeout">操作逾时</string>
+    <string name="type_here">请输入...</string>
+    <string name="update_ready_to_install">準备安装更新软件</string>
+    <string name="update">更新</string>
+    <string name="ask_me_later">稍後</string>
+    <string name="update_successful">成功更新</string>
+    <string name="reboot_earphones">重启耳机</string>
+    <string name="rename_failed">改名失败</string>
+    <string name="rename_success">成功改名</string>
+
+    <string name="downloading_update">正在下载更新软件</string>
+    <string name="transferring_update">转载更新软件至%1$s耳机</string>
+    <string name="first">第一只耳机</string>
+    <string name="second">第二只耳机</string>
+    <string name="downloading_update_description">你可在下载更新期间离开Earin® app</string>
+    <string name="transferring_update_description">你可在转载更新期间离开Earin® app</string>
+    <string name="minutes_remaining">请稍後，\n这过程需时大约%d分钟</string>
+    <string name="complete_update">完成更新</string>
+    <string name="complete_update_description">重启耳机需时一至两分钟，期间耳机蓝牙连线会中断。</string>
+    <string name="complete_update_now">重启耳机</string>
+    <string name="completing_update">正在完成更新中...</string>
+    <string name="update_completed">完成更新</string>
+    <string name="update_completed_description">你的耳机软件已经是最新版本</string>
+    <string name="update_completed_ok">OK</string>
+
+    <string name="battery_too_low">电量太低</string>
+    <string name="battery_too_low_description">请把耳机充电至%d \%%来完成更新</string>
+
+
+    <string name="no_connection_chat">你正在离线状态，请先连接到互联网。</string>
+    <string name="no_connection_store">你正在离线状态，请先连接到互联网。</string>
+    <string name="no_connection_support">你正在离线状态，请先连接到互联网。</string>
+    <string name="support_chat_intro_message">Welcome to Earin Support Chat! How can we help you?</string>
+    <string name="chat_diagnostics_sent">%1$s的检测讯息数据已发送</string>
+    <string name="chat_diagnostics_sending_fail">发送检测讯息数据失败</string>
+    <string name="send_message">发送</string>
+    <string name="e_mail_address">电邮地址</string>
+    <string name="message">你的意见</string>
+    <string name="name">名称</string>
+    <string name="email_a_message">发送电邮</string>
+    <string name="no_agents_description">对不起，暂时没有客户服务代表，请稍後再试或发送电邮给我们。</string>
+    <string name="no_agants_available">暂时没有客户服务代表</string>
+
+    <string name="enter_name">请输入名称</string>
+    <string name="enter_message">请输入资讯</string>
+    <string name="enter_email">请输入正确电邮地址</string>
+
+    <string name="chat_thank_you">感谢你的宝贵意见！</string>
+    <string name="chat_thank_you_message">我们的客户服务代表会尽快回覆你</string>
+
+    <string name="about_app_version">App版本</string>
+    <string name="about_firmware_version">CSR®版本：%1$s  NXP®版本%2$s</string>
+    <string name="about_text_1">Earin®为音乐爱好者创製非凡极致优质的音响产品</string>
+    <string name="about_text_2">Earin®自2013年在瑞典马尔默市成立，本著不妥协的精神致力研发重现原音音色的音响产品。
+我们资深的工程师、调音师及产品设计师会不断突破声音和科技结合的可能性。</string>
+    <string name="about_text_3">Earin® － 重新定义真 ‧ 无线完美音色。</string>
+    <string name="enable_your_internet_connection">请连接到互联网</string>
+    <string name="version">版本：</string>
+    <string name="send_earphone_diagnostics_data">发送耳机检测讯息数据</string>
+    <string name="vol_plus">音量＋</string>
+    <string name="vol_minus">音量－</string>
+    <string name="on">开</string>
+    <string name="off">关</string>
+    <string name="auto">自动</string>
+    <string name="power_off_earphones">关掉耳机？</string>
+    <string name="ok">是</string>
+    <string name="cancel">否</string>
+    <string name="close">关闭</string>
+    <string name="transparency_help">开\n环境音频模式长开\n\n关\n除音频通讯和语音控制功能外，环境音频模式会关闭。\n\n自动\n音乐播放及暂停时，自动切换至环境音频模式。</string>
+    <string name="transparency_on">开</string>
+    <string name="transparency_on_description">环境音频模式长开</string>
+    <string name="transparency_off_description">除音频通讯和语音控制功能外，环境音频模式会关闭。</string>
+    <string name="transparency_auto_description">音乐播放及暂停时，自动切换至环境音频模式。</string>
+    <string name="transparency_auto">开</string>
+    <string name="transparency_off">关</string>
+    <string name="noise_plus">环境噪音 +</string>
+    <string name="noise_minus">环境噪音 -</string>
+    <string name="beta_program">Beta 软件测试</string>
+    <string name="join_beta_program"><u>参加 Earin® Beta 软件测试</u></string>
+</resources>

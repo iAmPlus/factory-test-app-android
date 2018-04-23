@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.activities.dash.DashM2Activity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:id="@+id/batteryLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/gainTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.3">
+
+            <com.dinuscxj.progressbar.CircleProgressBar
+                android:id="@+id/batteryProgressBar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:progress="100"
+                app:draw_progress_text="false"
+                app:progress_background_color="@color/darkGreyDisabled"
+                app:progress_end_color="@color/white"
+                app:progress_start_color="@color/white"
+                app:progress_stroke_width="8dp"
+                app:style="solid_line" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_battery_bolt" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/monoModeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mono_mode"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:textAppearance="@style/TextSmall"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="@drawable/round_button_container"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/batteryLayout" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="@color/black30"
+            app:layout_constraintBottom_toTopOf="@+id/gainTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/gainTextView"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/gain"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextMedium"
+            app:layout_constraintBottom_toTopOf="@+id/balanceTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="@color/black30"
+            app:layout_constraintBottom_toTopOf="@+id/balanceTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/balanceTextView"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/balance"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextMedium"
+            app:layout_constraintBottom_toTopOf="@+id/transparencyTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:background="@color/black30"
+            app:layout_constraintBottom_toTopOf="@+id/transparencyTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/transparencyTextView"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/transparency"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextMedium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/loadProgressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background85">
+
+        <ProgressBar
+            android:id="@+id/loadProgressBar"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_in"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/completingUpdateLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="32dp"
+            android:background="@drawable/chat_input_shape"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                android:text="@string/completing_update"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextExtraLarge" />
+
+            <ProgressBar
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="24dp"
+                android:indeterminateTint="@color/darkGrey"
+                android:indeterminateTintMode="src_in" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>

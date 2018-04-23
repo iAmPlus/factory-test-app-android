@@ -1,0 +1,50 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/darkGrey</item>
+        <item name="android:windowBackground">@color/background</item>
+
+    </style>
+
+    <style name="TextSeekBar">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/darkGrey</item>
+    </style>
+
+    <style name="TextExtraLarge">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/black87</item>
+    </style>
+    <style name="TextLarge">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/black87</item>
+    </style>
+
+    <style name="TextMedium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black87</item>
+    </style>
+
+    <style name="TextSmall">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black87</item>
+    </style>
+
+    <style name="TextSmallest">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black50</item>
+    </style>
+
+    <style name="TextChatDate">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/black43</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

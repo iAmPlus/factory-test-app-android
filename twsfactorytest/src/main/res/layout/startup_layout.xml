@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/login_status"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:gravity="center"
+            android:text="@string/login_details"/>
+
+        <LinearLayout
+            android:id="@+id/login_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/user_name"
+                android:ems="10"
+                android:id="@+id/username" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/password"
+                android:ems="10"
+                android:id="@+id/password" />
+
+            <Button
+                android:text="@string/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/login" />
+        </LinearLayout>
+
+        <Button
+            android:text="@string/logout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/logout" />
+
+        <TextView
+            android:id="@+id/forgot_password"
+            android:text="@string/forgot_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/signup"
+            android:text="@string/signup_text"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/fota" />
+
+                <RadioGroup
+                    android:id="@+id/radioChannelFota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/background_light">
+
+                    <RadioButton
+                        android:id="@+id/radioProductionFota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/radio_production" />
+
+                    <RadioButton
+                        android:id="@+id/radioQaFota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_qa" />
+
+                    <RadioButton
+                        android:id="@+id/radioDevFota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_dev" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/nlu" />
+
+                <RadioGroup
+                    android:id="@+id/radioChannelNlu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/background_light">
+
+                    <RadioButton
+                        android:id="@+id/radioProductionNlu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/radio_production" />
+
+                    <RadioButton
+                        android:id="@+id/radioQaNlu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_qa" />
+
+                    <RadioButton
+                        android:id="@+id/radioDemoNlu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/radio_demo" />
+
+                    <RadioButton
+                        android:id="@+id/radioDevNlu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/radio_dev" />
+                </RadioGroup>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/enableAsrtone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_asr_completion_tone"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:id="@+id/enableVoiceAssistantview"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/enableVoiceAssistant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_voice_assistant"/>
+
+                <CheckBox
+                    android:id="@+id/enableSensory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_sensory"/>
+
+                <CheckBox
+                    android:id="@+id/enableAutoFota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enable_auto_fota"/>
+            </LinearLayout>
+
+            <Button
+                android:text="@string/update"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/update" />
+
+            <Button
+                android:text="@string/activity_device_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/bt_device_information"/>
+
+            <Button
+                android:text="@string/activity_microphone_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/bt_microphone_test"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="@string/retry_to_connect"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:id="@+id/connect_retry" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="@string/gaia_conection_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/gaia_connection"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/default_gap"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="@string/disconnected"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/status"
+            android:text="@string/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp"/>
+
+    </LinearLayout>
+</ScrollView>

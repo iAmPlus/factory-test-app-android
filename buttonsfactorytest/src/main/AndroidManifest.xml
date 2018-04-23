@@ -1,0 +1,52 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.iamplus.buttonsfactorytest">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+
+    <permission
+        android:name="com.iamplus.systemupdater.permission.IAPN_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name" android:supportsRtl="true"
+        android:testOnly="false"
+        android:theme="@style/AppTheme">
+
+        <service android:name="com.iamplus.buttonsfactorytest.MusicService">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name="android.support.v4.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.iamplus.buttonsfactorytest.ButtonsTestActivity"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+
+                <action android:name="android.intent.action.VOICE_COMMAND"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

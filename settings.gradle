@@ -1,0 +1,6 @@
+include ':gaiacontrol',
+        ':buttonsfactorytest',
+        ':VMUpgradeLibrary',
+        ':GaiaLibrary',
+        ':tws-library',
+        ':twsfactorytest'

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialogContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background85"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/minusImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_minus"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        app:layout_constraintBottom_toTopOf="@+id/clearImageButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/plusImageButton"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <ImageButton
+        android:id="@+id/plusImageButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_plus"
+        app:layout_constraintBottom_toTopOf="@+id/clearImageButton"
+        app:layout_constraintLeft_toRightOf="@+id/minusImageButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <ImageButton
+        android:id="@+id/clearImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/circle_shape"
+        android:backgroundTint="@color/white"
+        android:padding="4dp"
+        android:src="@drawable/ic_clear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialogContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background85"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/readyToInstallLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="32dp"
+        android:background="@drawable/chat_input_shape"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="36dp"
+            android:text="@string/update_ready_to_install"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextExtraLarge" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/releaseNoteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:textAppearance="@style/TextSmall" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:text="@string/version"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextSmall" />
+
+                <TextView
+                    android:id="@+id/newVersionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextSmall" />
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black30" />
+
+        <TextView
+            android:id="@+id/acceptUpdateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:text="@string/update"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black30" />
+
+        <TextView
+            android:id="@+id/askMeLaterTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:text="@string/ask_me_later"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/updatingLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/chat_input_shape"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.dinuscxj.progressbar.CircleProgressBar
+            android:id="@+id/updatingProgressBar"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_margin="16dp"
+            app:progress_background_color="@android:color/transparent"
+            app:progress_end_color="@color/green"
+            app:progress_start_color="@color/green"
+            app:progress_stroke_width="6dp"
+            app:progress_text_color="@color/black87"
+            app:progress_text_size="24sp"
+            app:style="solid_line" />
+
+
+        <TextView
+            android:id="@+id/updatingTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/downloading_update"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+
+        <TextView
+            android:id="@+id/timeRemainingTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:id="@+id/updatingDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/downloading_update_description"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextSmallest" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/completeUpdateLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/chat_input_shape"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="36dp"
+            android:text="@string/complete_update"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextExtraLarge" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/complete_update_description"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextMedium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black30" />
+
+        <TextView
+            android:id="@+id/completeUpdateTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:text="@string/complete_update_now"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/batteryLowLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:background="@drawable/chat_input_shape"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="36dp"
+            android:text="@string/battery_too_low"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextExtraLarge" />
+
+        <TextView
+            android:id="@+id/batteryLowDescriptionTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:text="@string/battery_too_low_description"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextMedium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/black30" />
+
+        <TextView
+            android:id="@+id/batteryLowOkTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:text="@string/ok"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextLarge" />
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
