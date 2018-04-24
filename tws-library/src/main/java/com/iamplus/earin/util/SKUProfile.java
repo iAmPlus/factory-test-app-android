@@ -62,6 +62,9 @@ public class SKUProfile {
     }
 
     public static String getSKUVersion(String mSku) {
+        if(mSku == null) {
+            return "null";
+        }
         String sku = mSku.substring(2,mSku.length());
         switch (sku) {
             case "22": return skuVersion[5];
