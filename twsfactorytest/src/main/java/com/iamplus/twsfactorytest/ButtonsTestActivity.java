@@ -1,6 +1,8 @@
 package com.iamplus.twsfactorytest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
@@ -94,6 +96,7 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
             mBound = false;
         }
     };
+    private ProgressDialog mProgressDialog;
 
     private static void log(String s) {
         Log.d(TAG, s);
@@ -191,7 +194,7 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
                     }
                     fileOutputStream.write((SKUProfile.getSKUVersion(mSku) + ",").getBytes());
                     fileOutputStream.write((mMacAddressView.getText() + ",").getBytes());
-                    fileOutputStream.write((mFWVersionView.getText().toString() + ",").getBytes());
+                    fileOutputStream.write((mVersion + ",").getBytes());
                     fileOutputStream.write(mOmegaTestResult ? "true,".getBytes() : "false,".getBytes());
                     fileOutputStream.write(mButtonsMicrophoneTest.getMicrophoneTestResult() ? "true,".getBytes() : "false,".getBytes());
                     fileOutputStream.write(mButtonsMediaTest.getMediaTestResult() ? "true,".getBytes() : "false,".getBytes());
@@ -254,6 +257,11 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                mProgressDialog = new ProgressDialog(mContext);
+                mProgressDialog.setMessage("Please wait...");
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                mProgressDialog.show();
                 mGaiaConnectionTextView.setText("Mini Buttons connected");
             }
         });
@@ -272,6 +280,7 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        mProgressDialog.dismiss();
                         if (mSku == null) {
                             mSerialNumberView.setText("Unable to get SKU");
                             Toast.makeText(mContext, "Unable to get SKU, you might need to update Mini Buttons", Toast.LENGTH_SHORT).show();
@@ -283,8 +292,12 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
                         }
                         mMacAddressView.setText(BluetoothUtil.getInstance(EarinApplication.getContext())
                                 .getCurrentDevice().getAddress());
+                        if(mVersion == null) {
+                            mVersion = "Unable to get version";
+                        } else {
+                            mVersion = mVersion.replaceAll(",", " |");
+                        }
                         mFWVersionView.setText(mVersion);
-                        mVersion = mVersion.replaceAll(",", "");
                     }
                 });
             }
@@ -357,6 +370,9 @@ public class ButtonsTestActivity extends Activity implements BleBroadcastUtil.Bl
         super.onStop();
         if (mBound) {
             unbindService(mConnection);
+        }
+        if(mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
     }
 

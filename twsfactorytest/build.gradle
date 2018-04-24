@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 106
-        versionName "1.0.06"
+        versionCode 107
+        versionName "1.0.07"
         applicationId 'com.iamplus.twsfactorytest'
         multiDexEnabled true
     }
@@ -21,7 +21,6 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            versionNameSuffix defaultConfig.versionName
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

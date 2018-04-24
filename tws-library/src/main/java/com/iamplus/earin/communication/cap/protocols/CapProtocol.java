@@ -36,7 +36,7 @@ public class CapProtocol
     public static final byte DATA_BLOCK_VALUE_SEPARATOR = ',';
     public static final byte COMMENT_CHAR = ',';
 
-    private final int TIMEOUT_MS = 30000; //30 sec...
+    private final int TIMEOUT_MS = 5000; //5 sec...
 
     private static int[] CRC16_TABLE = {
             0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
