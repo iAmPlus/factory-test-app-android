@@ -49,7 +49,7 @@
     <string name="update">Update</string>
     <string name="gaia_conection_status">GAIA Status:</string>
     <string name="disconnected">Buttons disconnected</string>
-    <string name="retry_to_connect">Connect</string>
+    <string name="retry_to_connect">Retry to connect</string>
     <string name="enable_voice_assistant">Enable voice assistant</string>
     <string name="enable_sensory">Enable Sensory</string>
     <string name="radio_qa">Qa</string>

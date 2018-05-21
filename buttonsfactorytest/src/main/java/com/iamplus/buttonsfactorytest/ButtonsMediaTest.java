@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
+import android.preference.TwoStatePreference;
 import android.support.annotation.Nullable;
 
 import android.os.Bundle;
@@ -35,17 +36,11 @@ public class ButtonsMediaTest extends Fragment implements View.OnClickListener, 
 
     private ImageButton mButtonPlayPause;
     private TextView mSongDisplayView;
-    private MediaPlayer mMediaPlayer;
-    private String RES_PREFIX = "android.resource://com.iamplus.vbox/";
-    private HashMap<Integer, AssetFileDescriptor> mSongs;
-    private ButtonsTestActivity.MediaTestEvents mCallback;
-    private ArrayList<String> mSongsName;
-    private boolean mIsMediaPlayerPlaying;
-    private int mPlayinSongIndex;
     private String TAG = "ButtonsMediaTest";
     private boolean mMediaTestResult;
     private MusicController mMusicController;
     private SimpleExoPlayer mExoPlayer;
+    private Switch mToggleButton;
 
     private final static int RES_IDS[] = { R.raw.buddy, R.raw.tenderness, R.raw.energy};
 
@@ -58,14 +53,13 @@ public class ButtonsMediaTest extends Fragment implements View.OnClickListener, 
         mSongDisplayView = view.findViewById(R.id.songname);
         mButtonPlayPause.setOnClickListener(this);
 
-        Switch toggleButton = view.findViewById(R.id.toggleButton);
-        toggleButton.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+        mToggleButton = view.findViewById(R.id.toggleButton);
+        mToggleButton.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mMediaTestResult = b;
             }
         });
-        //prepareExoPlayerFromRawResourceUri(RawResourceDataSource.buildRawResourceUri(R.raw.buddy));;
         return view;
     }
 
@@ -144,6 +138,10 @@ public class ButtonsMediaTest extends Fragment implements View.OnClickListener, 
 
     private String makeUrl(int index) {
         return RawResourceDataSource.buildRawResourceUri(RES_IDS[index]).toString();
+    }
+
+    public void resetToggle() {
+        mToggleButton.setChecked(false);
     }
 
 }

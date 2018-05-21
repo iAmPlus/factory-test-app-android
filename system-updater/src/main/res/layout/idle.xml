@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="@string/welcome"/>
+
+    <TextView
+        android:id="@+id/last_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/last_checked"/>
+
+    <TextView
+        android:id="@+id/no_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/last_checked"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/no_network"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/check_for_updates"
+        style="@style/fullborder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/check_for_updates"/>
+
+</RelativeLayout>

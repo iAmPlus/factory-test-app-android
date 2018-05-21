@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/download_paused"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="@string/download_paused"/>
+
+    <TextView
+        android:id="@+id/waiting_for_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/download_paused"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="@string/waiting_for_network"/>
+
+    <TextView
+        android:id="@+id/auto_resume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/waiting_for_network"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="@string/auto_resume"/>
+
+    <Button
+        android:id="@+id/retry"
+        style="@style/fullborder"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:text="@string/retry"/>
+
+</RelativeLayout>

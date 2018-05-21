@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/update_ready"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/update_ready"/>
+
+            <TextView
+                android:id="@+id/update_ready_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version"/>
+
+            <TextView
+                android:id="@+id/release_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:text="@string/release_notes"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:paddingTop="30dp"
+                android:text="@string/warning_msg_before_update"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/install_update"
+            style="@style/fullborder"
+            android:layout_width="match_parent"
+            android:text="@string/install_update"/>
+
+        <Button
+            android:id="@+id/postpone_update"
+            style="@style/fullborder"
+            android:layout_width="match_parent"
+            android:text="@string/postpone_update"/>
+
+        <Button
+            android:id="@+id/cancel_update"
+            style="@style/fullborder"
+            android:layout_width="match_parent"
+            android:text="@string/cancel_update"/>
+
+    </LinearLayout>
+
+</LinearLayout>

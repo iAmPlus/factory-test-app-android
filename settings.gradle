@@ -3,4 +3,5 @@ include ':gaiacontrol',
         ':VMUpgradeLibrary',
         ':GaiaLibrary',
         ':tws-library',
-        ':twsfactorytest'
+        ':twsfactorytest',
+        ':system-updater'

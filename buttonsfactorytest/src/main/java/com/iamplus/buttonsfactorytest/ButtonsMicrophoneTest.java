@@ -39,7 +39,7 @@ public class ButtonsMicrophoneTest extends Fragment {
     MediaPlayer mediaPlayer;
     private AudioManager mAudioManager;
     private Handler mHandler;
-    private ToggleButton mToggleButton;
+    private Switch mToggleButton;
     private boolean mMicrophoneTestResult;
 
     @Nullable
@@ -177,8 +177,8 @@ public class ButtonsMicrophoneTest extends Fragment {
             }
         });
 
-        Switch toggleButton = view.findViewById(R.id.toggleButton);
-        toggleButton.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+        mToggleButton = view.findViewById(R.id.toggleButton);
+        mToggleButton.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 stopMediaPlayer();
@@ -212,5 +212,10 @@ public class ButtonsMicrophoneTest extends Fragment {
     public boolean getMicrophoneTestResult() {
         return mMicrophoneTestResult;
     }
+
+    public void resetToggle() {
+        mToggleButton.setChecked(false);
+    }
+
 
 }

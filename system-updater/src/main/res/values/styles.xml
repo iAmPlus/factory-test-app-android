@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DefaultTextAppearance" parent="android:TextAppearance">
+    </style>
+
+    <style name="CriticalTextAppearance" parent="DefaultTextAppearance">
+        <item name="android:textColor">#f00</item>
+    </style>
+
+    <style name="fullborder" >
+       <!-- <item name="android:padding">0px</item>-->
+        <item name="android:layout_marginTop">8dp</item>
+        <!--<item name="android:includeFontPadding">false</item>-->
+        <item name="android:layout_margin">2dp</item>
+        <!--<item name="aneeda.lib:bottomBorderThickness">1dp</item>-->
+        <!--<item name="aneeda.lib:leftBorderThickness">1dp</item>-->
+        <!--<item name="aneeda.lib:rightBorderThickness">1dp</item>-->
+        <!--<item name="aneeda.lib:topBorderThickness">1dp</item>-->
+        <item name="android:layout_height">@dimen/button_height</item>
+    </style>
+</resources>

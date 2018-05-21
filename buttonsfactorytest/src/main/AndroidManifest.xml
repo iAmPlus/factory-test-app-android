@@ -47,6 +47,41 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EqualizerActivity"
+            android:parentActivityName=".ButtonsTestActivity"
+            android:label="@string/activity_equalizer"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".CustomEqualizerActivity"
+            android:parentActivityName=".EqualizerActivity"
+            android:label="@string/activity_custom_equalizer"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service
+            android:name=".HandsFreeService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="aneeda.CHECKS_FOR_UPDATES" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".UpdateActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+
+            <intent-filter>
+                <action android:name="aneeda.UPDATE_BUTTONS"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

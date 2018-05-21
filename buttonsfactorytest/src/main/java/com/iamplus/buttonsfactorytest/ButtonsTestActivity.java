@@ -1,6 +1,7 @@
 package com.iamplus.buttonsfactorytest;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
@@ -31,6 +33,7 @@ import com.csr.gaiacontrol.Callback;
 import com.csr.gaiacontrol.Controller;
 import com.csr.gaiacontrol.Events;
 import com.csr.gaiacontrol.SimpleCallback;
+import com.iamplus.systemupdater.Config;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -46,7 +49,7 @@ import static com.iamplus.buttonsfactorytest.ButtonsMicrophoneTest.RequestPermis
  * Created by abhay on 24-01-2018.
  */
 
-public class ButtonsTestActivity extends Activity {
+public class ButtonsTestActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "ButtonsTestActivity";
     private boolean mBound;
@@ -62,16 +65,21 @@ public class ButtonsTestActivity extends Activity {
     private TextView mSerialNumberView;
     private TextView mMacAddressView;
     private TextView mUUIDView;
+    private Button mEQButton;
     private boolean mOmegaTestResult;
     private TextView mFWVersionView;
-    private TextView mWritetoCSV;
+    private Button mWritetoCSV;
     private ImageButton mShareButton;
     private File mCSVfile;
     private ComponentName mRemoteControlResponder;
     private TextView mBatteryView;
+    private View mOmegaView;
+    private TextView mHeaderView;
     private View mBatteryIndicator;
     private boolean mGaiaConnected;
+    private Button mUpdateButton;
     private String mBatteryLevel = "NA";
+    private View mNonOmegaView;
     private Callback mCallback = new SimpleCallback() {
         @Override
         public void onConnected() {
@@ -91,6 +99,7 @@ public class ButtonsTestActivity extends Activity {
             mController.getAppVersion();
             mController.getBatteryLevel();
             mController.registerNotification(Gaia.EventId.USER_ACTION);
+            mNonOmegaView.setVisibility(View.GONE);
         }
 
         @Override
@@ -102,6 +111,8 @@ public class ButtonsTestActivity extends Activity {
             mUUIDView.setText("");
             mMacAddressView.setText("");
             mFWVersionView.setText("");
+            mNonOmegaView.setVisibility(View.GONE);
+            reset();
             mController.cancelNotification(Gaia.EventId.USER_ACTION);
         }
 
@@ -133,6 +144,15 @@ public class ButtonsTestActivity extends Activity {
         @Override
         public void onGetAppVersion(String version) {
             mFWVersionView.setText(version);
+            if(!version.contains("4.")) {
+                mNonOmegaView.setVisibility(View.GONE);
+                mHeaderView.setText("Buttons Factory Test Omega");
+                mOmegaView.setVisibility(View.VISIBLE);
+            } else {
+                mNonOmegaView.setVisibility(View.VISIBLE);
+                mHeaderView.setText("Buttons Factory Test");
+                mOmegaView.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -147,6 +167,10 @@ public class ButtonsTestActivity extends Activity {
             handleOnError(error);
         }
     };
+
+    private void nonOmegaButtons() {
+    }
+
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -196,6 +220,12 @@ public class ButtonsTestActivity extends Activity {
         mUUIDView = ((TextView) findViewById(R.id.uuid));
         mBatteryIndicator = findViewById(R.id.batteryview);
         mBatteryView = ((TextView) findViewById(R.id.battery));
+        mOmegaView = findViewById(R.id.omegaView);
+        mHeaderView = findViewById(R.id.header);
+        mNonOmegaView = findViewById(R.id.nonOmegaView);
+        findViewById(R.id.radioProductionFota).setOnClickListener(this);
+        findViewById(R.id.radioQaFota).setOnClickListener(this);
+        findViewById(R.id.radioDevFota).setOnClickListener(this);
 
         mOmegaTestToggle = (Switch) findViewById(R.id.testOmega);
         mOmegaTestToggle.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
@@ -231,9 +261,17 @@ public class ButtonsTestActivity extends Activity {
         });
         mController = Controller.getInstance();
 
-        mController.registerListener(mCallback);
 
-        mWritetoCSV = (TextView) findViewById(R.id.writetocsv);
+        mEQButton = ((Button) findViewById(R.id.eq));
+        mEQButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                Intent intentEqualizer = new Intent(mContext, EqualizerActivity.class);
+                startActivity(intentEqualizer);
+            }
+        });
+        mWritetoCSV = (Button) findViewById(R.id.writetocsv);
         mShareButton = (ImageButton) findViewById(R.id.sharetestfile);
 
         if (isExternalStorageAvailable() && !isExternalStorageReadOnly()) {
@@ -274,8 +312,9 @@ public class ButtonsTestActivity extends Activity {
 
                     fileOutputStream.write(System.lineSeparator().getBytes());
 
-                    Toast.makeText(mContext, "Export Successfull to Documents/results.csv Result: " + result, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Export Successful to Documents/results.csv Result: " + result, Toast.LENGTH_SHORT).show();
                     fileOutputStream.close();
+                    reset();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -295,15 +334,37 @@ public class ButtonsTestActivity extends Activity {
                 }
             }
         });
+
+        mUpdateButton = (Button) findViewById(R.id.update);
+        mUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: ");
+                Intent intent = new Intent();
+                intent.setAction(HandsFreeService.ACTION_CHECK_FOR_UPDATES);
+                intent.setPackage(getPackageName());
+                startService(intent);
+            }
+        });
+        mController.registerListener(mCallback);
+
+        startService(new Intent(this, HandsFreeService.class));
     }
+
+    private void reset() {
+        mOmegaTestToggle.setChecked(false);
+        mButtonsMediaTest.resetToggle();
+        mButtonsMicrophoneTest.resetToggle();
+    }
+
 
     private void handleOnError(GaiaError error) {
         switch (error.getType()) {
             case CONNECTION_FAILED:
-                mGaiaConnectionTextView.setText(R.string.disconnected);
+                mGaiaConnectionTextView.setText(R.string.retry_to_connect);
                 break;
             default:
-                mGaiaConnectionTextView.setText(R.string.disconnected);
+                mGaiaConnectionTextView.setText(R.string.retry_to_connect);
                 Log.w(TAG, "handleOnError: " + error.getStringException());
                 break;
         }
@@ -326,6 +387,12 @@ public class ButtonsTestActivity extends Activity {
     protected void onStart() {
         super.onStart();
         bindToMusicService();
+        //connectToHandsFreeService();
+    }
+
+    private void connectToHandsFreeService() {
+        Intent i = new Intent(this, HandsFreeService.class);
+        bindService(i, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -386,46 +453,17 @@ public class ButtonsTestActivity extends Activity {
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.d(TAG, "dispatchKeyEvent: " + event.getKeyCode());
-        if (event.getKeyCode() == KeyEvent.KEYCODE_CALL) {
-            Toast.makeText(this, "CALLING!", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        return super.dispatchKeyEvent(event);
-    }
-
-
-    public interface MediaTestEvents {
-        public void onPlayMusic();
-
-        public void onPauseMusic();
-
-        public void onNextSong();
-
-        public void onPreviousSong();
-    }
-
-    public class MediaButtonIntentReceiver extends BroadcastReceiver {
-
-        public MediaButtonIntentReceiver() {
-            super();
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String intentAction = intent.getAction();
-            Log.i(TAG, intentAction.toString() + " happended");
-            if (!Intent.ACTION_MEDIA_BUTTON.equals(intentAction)) {
-                Log.i(TAG, "no media button information");
-                return;
-            }
-            KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-            if (event == null) {
-                Log.i(TAG, "no keypress");
-                return;
-            }
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.radioProductionFota:
+                Config.setChannel(mContext, Config.PRODUCTION);
+                break;
+            case R.id.radioDevFota:
+                Config.setChannel(mContext, Config.DEV);
+                break;
+            case R.id.radioQaFota:
+                Config.setChannel(mContext, Config.QA);
+                break;
         }
     }
-
 }

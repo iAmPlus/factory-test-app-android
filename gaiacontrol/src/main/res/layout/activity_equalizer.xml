@@ -5,8 +5,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.csr.gaiacontrol.activities.MainActivity">
+    android:layout_height="match_parent">
 
     <include layout="@layout/toolbar"
         android:id="@+id/tb_menu" />
@@ -36,6 +35,9 @@
 
             <Switch
                 android:id="@+id/sw_bass"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/switch_bass"
                 style="@style/AppTheme.Switch" />
 
@@ -46,7 +48,8 @@
 
             <Switch
                 android:id="@+id/sw_3d"
-                android:text="@string/switch_3d"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"          android:text="@string/switch_3d"
                 style="@style/AppTheme.Switch" />
 
             <TextView
@@ -57,7 +60,8 @@
             <!-- Title & Switch for presets -->
             <Switch
                 android:id="@+id/sw_presets"
-                android:text="@string/switch_presets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"   android:text="@string/switch_presets"
                 style="@style/AppTheme.Switch.Title"
                 android:layout_marginTop="@dimen/margin_top_title" />
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TwoButtonsLayout">
+        <attr name="leftButtonText" format="string"/>
+        <attr name="rightButtonText" format="string"/>
+        <attr name="leftButtonVisibility" format="boolean"/>
+        <attr name="rightButtonVisibility" format="boolean"/>
+        <attr name="minHeight" format="integer"/>
+    </declare-styleable>
+</resources>

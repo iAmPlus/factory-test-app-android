@@ -1,0 +1,9 @@
+{
+    "download_url": "https://dummy.url",
+    "to_version": "2.1.0",
+    "release_notes" : "Upgrade from 2.0.0 to 2.1.0. It is a dummy update.",
+    "file_size": 220539,
+    "critical": false,
+    "md5": "d9d7edab3cb79eaade308fa02b07bec5",
+    "wifi_only": false
+}

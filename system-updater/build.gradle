@@ -1,0 +1,33 @@
+// Application compilation
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.appVersionCode
+        versionName rootProject.ext.appVersionName
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField('String', 'FOTA_SERVER_CHANNEL', '"dev"')
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField('String', 'FOTA_SERVER_CHANNEL', '"dev"')
+        }
+    }
+
+    lintOptions {
+        ignoreWarnings true
+    }
+    buildToolsVersion '27.0.3'
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:25.3.1'
+}

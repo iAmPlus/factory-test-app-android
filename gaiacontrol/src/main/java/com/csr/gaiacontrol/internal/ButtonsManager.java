@@ -221,7 +221,7 @@ public class ButtonsManager {
      * @param payload
      *            the additional information for the command.
      */
-    void sendGaiaPacket(int command, boolean payload) {
+    public void sendGaiaPacket(int command, boolean payload) {
         mGaiaLink.sendCommand(Gaia.VENDOR_CSR, command, payload);
     }
 
