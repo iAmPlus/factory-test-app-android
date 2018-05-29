@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -224,7 +225,10 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mHeaderView = findViewById(R.id.header);
         mNonOmegaView = findViewById(R.id.nonOmegaView);
         findViewById(R.id.radioProductionFota).setOnClickListener(this);
-        findViewById(R.id.radioQaFota).setOnClickListener(this);
+        RadioButton qaButton = findViewById(R.id.radioQaFota);
+        qaButton.setOnClickListener(this);
+        qaButton.toggle();
+        Config.setChannel(mContext, Config.QA);
         findViewById(R.id.radioDevFota).setOnClickListener(this);
 
         mOmegaTestToggle = (Switch) findViewById(R.id.testOmega);
@@ -347,8 +351,6 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             }
         });
         mController.registerListener(mCallback);
-
-        startService(new Intent(this, HandsFreeService.class));
     }
 
     private void reset() {

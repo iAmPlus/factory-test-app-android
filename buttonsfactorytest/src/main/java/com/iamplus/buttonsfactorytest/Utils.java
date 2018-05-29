@@ -30,7 +30,7 @@ public class Utils {
 
         while (iterator.hasNext()) {
             BluetoothDevice item = iterator.next();
-            if (item.getName().equalsIgnoreCase("A.I. Buttons") ||
+            if (item.getName().equalsIgnoreCase("Buttons") ||
                     item.getName().equalsIgnoreCase("Buttons with Omega")) {
                 connectedDevice = item;
                 break;
