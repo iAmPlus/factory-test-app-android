@@ -1,5 +1,7 @@
 include ':gaiacontrol',
         ':buttonsfactorytest',
+        ':buttonstestcommon',
+        ':buttonsnonomega',
         ':VMUpgradeLibrary',
         ':GaiaLibrary',
         ':tws-library',

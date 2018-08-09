@@ -86,8 +86,7 @@ public class HandsFreeService extends Service {
             BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
             final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, -1);
             log("device state::"+state);
-            if (device != null && device.getName() != null && device.getName().equalsIgnoreCase("Buttons") ||
-                    device.getName().equalsIgnoreCase("Buttons with Omega")) {
+            if (device != null && device.getName() != null && device.getName().equalsIgnoreCase("Buttons with Omega")) {
                 if (state == BluetoothAdapter.STATE_CONNECTED) {
                     log("device connected");
                     mController.setConnectedDevice(device);
@@ -97,7 +96,7 @@ public class HandsFreeService extends Service {
                         public void run() {
                             mController.establishGAIAConnection();
                         }
-                    }, 2000);
+                    }, 1000);
                 }
                 else if (state == BluetoothAdapter.STATE_DISCONNECTED){
                     log("device disconnected");

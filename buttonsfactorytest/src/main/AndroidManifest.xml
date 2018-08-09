@@ -11,9 +11,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
 
-    <permission
-        android:name="com.iamplus.systemupdater.permission.IAPN_MESSAGE"
-        android:protectionLevel="signature" />
 
     <application android:allowBackup="true" android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" android:supportsRtl="true"

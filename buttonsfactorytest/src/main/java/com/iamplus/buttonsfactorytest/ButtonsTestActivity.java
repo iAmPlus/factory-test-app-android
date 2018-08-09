@@ -255,6 +255,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
 
         setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
 
+        mController = Controller.getInstance();
         mGaiaConnectionTextView = (TextView) findViewById(R.id.gaia_connection);
         mGaiaRetryButton = (ImageButton) findViewById(R.id.connect_retry);
         mGaiaRetryButton.setOnClickListener(new View.OnClickListener() {
@@ -263,7 +264,6 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 mController.establishGAIAConnection();
             }
         });
-        mController = Controller.getInstance();
 
 
         mEQButton = ((Button) findViewById(R.id.eq));
