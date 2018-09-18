@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionName "1.0.10"
-        versionCode 110
+        versionName "1.0.12"
+        versionCode 112
         applicationId 'com.iamplus.buttonsfactorytest'
         multiDexEnabled true
     }
@@ -24,6 +24,16 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors {
+        factory {
+            buildConfigField("boolean", "isInternal", "false")
+        }
+
+        internal {
+            buildConfigField("boolean", "isInternal", "true")
         }
     }
 

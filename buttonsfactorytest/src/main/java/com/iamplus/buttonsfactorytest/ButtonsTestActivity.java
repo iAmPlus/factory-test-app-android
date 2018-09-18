@@ -126,8 +126,11 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                     if (Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER1)) {
                         mOmegaTestResult = true;
                         mOmegaTestToggle.setChecked(true);
+                    } else if(Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER2)) {
+                        mOmegaTestToggle.setChecked(false);
                     }
                     break;
+
             }
         }
 
@@ -150,7 +153,11 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 mHeaderView.setText("Buttons Factory Test Omega");
                 mOmegaView.setVisibility(View.VISIBLE);
             } else {
-                mNonOmegaView.setVisibility(View.VISIBLE);
+                if(BuildConfig.isInternal) {
+                    mNonOmegaView.setVisibility(View.VISIBLE);
+                } else {
+                    mNonOmegaView.setVisibility(View.GONE);
+                }
                 mHeaderView.setText("Buttons Factory Test");
                 mOmegaView.setVisibility(View.GONE);
             }
