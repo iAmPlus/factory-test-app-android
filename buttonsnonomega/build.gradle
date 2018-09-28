@@ -11,6 +11,11 @@ android {
         versionCode 111
         applicationId 'com.iamplus.buttonsfactorytest'
         multiDexEnabled true
+        externalNativeBuild {
+            cmake {
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+            }
+        }
     }
 
     dexOptions {

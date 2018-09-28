@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2018 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical" >
+
+    <ImageView
+        android:id="@+id/iv_status_image"
+        android:layout_width="@dimen/width_image_status"
+        android:layout_height="@dimen/height_image_status"
+        android:contentDescription="@string/empty_content_description"
+        android:layout_margin="@dimen/margin_quarter" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_status"
+        android:layout_width="@dimen/size_progressbar"
+        android:layout_height="@dimen/size_progressbar"
+        android:visibility="gone"
+        android:layout_margin="@dimen/margin_quarter"
+        android:indeterminateTint="@color/grass_52" />
+
+    <TextView
+        android:id="@+id/tv_status_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/grass_52"
+        android:layout_margin="@dimen/margin_quarter"
+        android:text="@string/empty_string" />
+
+</LinearLayout>

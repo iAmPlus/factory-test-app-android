@@ -1,0 +1,66 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+    </style>
+
+
+    <style name="AppTheme.AppTitle">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:layout_marginTop">@dimen/margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin_half</item>
+        <item name="android:layout_marginStart">@dimen/margin</item>
+        <item name="android:layout_marginEnd">@dimen/margin</item>
+        <item name="android:textSize">@dimen/text_size_app_name</item>
+    </style>
+
+    <style name="AppTheme.AppVersion">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginTop">@dimen/no_margin</item>
+        <item name="android:layout_marginBottom">@dimen/margin</item>
+        <item name="android:layout_marginStart">@dimen/margin</item>
+        <item name="android:layout_marginEnd">@dimen/margin</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="AppTheme.Button">
+        <item name="android:layout_marginTop">@dimen/margin_button_flat_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/margin_button_flat_vertical</item>
+        <item name="android:layout_marginStart">@dimen/margin_button_flat_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/margin_button_flat_horizontal</item>
+        <item name="android:paddingStart">@dimen/padding_button_flat_horizontal</item>
+        <item name="android:paddingEnd">@dimen/padding_button_flat_horizontal</item>
+        <item name="android:minHeight">@dimen/height_button_flat</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_button</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="AppTheme.Button.Flat">
+        <item name="android:background">@drawable/flat_button_background</item>
+        <item name="android:textColor">@drawable/flat_button_text_color</item>
+        <item name="android:elevation">@dimen/elevation_button_flat</item>
+        <item name="android:stateListAnimator">@animator/selector_flat_buttons</item>
+    </style>
+
+    <style name="AppTheme.CardTitle">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    </style>
+
+</resources>

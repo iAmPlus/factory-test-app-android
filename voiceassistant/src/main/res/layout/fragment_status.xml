@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2018 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sv_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin_half"
+    android:gravity="center" >
+
+    <com.qualcomm.qti.voiceassistant.ui.SessionView
+        android:id="@+id/session_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_quarter"
+        android:layout_marginBottom="@dimen/margin_quarter"
+        android:layout_marginStart="@dimen/margin_half"
+        android:layout_marginEnd="@dimen/margin_half" />
+
+    <com.qualcomm.qti.voiceassistant.ui.Card
+        android:id="@+id/card_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:cardType="device"
+        android:layout_marginTop="@dimen/margin_quarter"
+        android:layout_marginBottom="@dimen/margin_quarter"
+        android:layout_marginStart="@dimen/margin_half"
+        android:layout_marginEnd="@dimen/margin_half" />
+
+    <com.qualcomm.qti.voiceassistant.ui.Card
+        android:id="@+id/card_assistant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        custom:cardType="assistant"
+        android:layout_marginTop="@dimen/margin_quarter"
+        android:layout_marginBottom="@dimen/margin_quarter"
+        android:layout_marginStart="@dimen/margin_half"
+        android:layout_marginEnd="@dimen/margin_half" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center" >
+
+        <Button
+            android:id="@+id/bt_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Button.Flat"
+            android:text="@string/button_reset" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2018 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <!-- MARGIN & PADDING -->
+    <dimen name="no_margin">0dp</dimen>
+    <dimen name="margin">16dp</dimen>
+    <dimen name="margin_double">32dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="margin_button_flat_vertical">6dp</dimen>
+    <dimen name="margin_button_flat_horizontal">@dimen/margin_half</dimen>
+    <dimen name="padding_button_flat_horizontal">@dimen/margin_quarter</dimen>
+    <dimen name="margin_dialog">24dp</dimen>
+
+    <!-- WIDTHS -->
+    <dimen name="width_image_status">16dp</dimen>
+
+    <!-- HEIGHTS -->
+    <dimen name="height_button_flat">36dp</dimen>
+    <dimen name="height_dialog_item">48dp</dimen>
+    <dimen name="height_image_status">16dp</dimen>
+
+    <!-- TEXT SIZES -->
+    <dimen name="text_size_button">14sp</dimen>
+    <dimen name="text_size_app_name">32sp</dimen>
+    <dimen name="text_size_subtitle">16sp</dimen>
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_body">14sp</dimen>
+
+    <!-- ELEVATIONS -->
+    <dimen name="no_elevation">0dp</dimen>
+    <dimen name="elevation_button_flat">@dimen/no_elevation</dimen>
+
+    <!-- CORNERS -->
+    <dimen name="no_corner">0dp</dimen>
+    <dimen name="card_radius">2dp</dimen>
+
+    <!-- BORDERS -->
+    <dimen name="no_border">0dp</dimen>
+    <dimen name="card_border">1dp</dimen>
+
+    <!-- OTHER SIZES -->
+    <dimen name="no_animation">0dp</dimen>
+    <dimen name="size_progressbar">24dp</dimen>
+
+</resources>

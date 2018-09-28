@@ -1,11 +1,15 @@
 package com.iamplus.buttonsfactorytest;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Notification;
+import android.app.assist.AssistContent;
+import android.app.assist.AssistStructure;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -13,6 +17,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.service.voice.VoiceInteractionService;
+import android.service.voice.VoiceInteractionSession;
+import android.service.voice.VoiceInteractionSessionService;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -50,7 +58,7 @@ import static com.iamplus.buttonsfactorytest.ButtonsMicrophoneTest.RequestPermis
  * Created by abhay on 24-01-2018.
  */
 
-public class ButtonsTestActivity extends Activity implements View.OnClickListener {
+public class ButtonsTestActivity extends Activity implements View.OnClickListener, Application.OnProvideAssistDataListener {
 
     private static final String TAG = "ButtonsTestActivity";
     private boolean mBound;
@@ -60,6 +68,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     private Context mContext;
     private ImageButton mGaiaRetryButton;
     private Switch mOmegaTestToggle;
+    private Switch mVATestToggle;
     private AudioManager mAudioManager;
     private ButtonsMediaTest mButtonsMediaTest;
     private ButtonsMicrophoneTest mButtonsMicrophoneTest;
@@ -68,6 +77,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     private TextView mUUIDView;
     private Button mEQButton;
     private boolean mOmegaTestResult;
+    private boolean mVATestResult;
     private TextView mFWVersionView;
     private Button mWritetoCSV;
     private ImageButton mShareButton;
@@ -75,6 +85,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     private ComponentName mRemoteControlResponder;
     private TextView mBatteryView;
     private View mOmegaView;
+    private View mVAView;
     private TextView mHeaderView;
     private View mBatteryIndicator;
     private boolean mGaiaConnected;
@@ -100,7 +111,6 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             mController.getAppVersion();
             mController.getBatteryLevel();
             mController.registerNotification(Gaia.EventId.USER_ACTION);
-            mNonOmegaView.setVisibility(View.GONE);
         }
 
         @Override
@@ -125,7 +135,9 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 case USER_ACTION:
                     if (Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER1)) {
                         mOmegaTestResult = true;
+                        mVATestResult = true;
                         mOmegaTestToggle.setChecked(true);
+                        mVATestToggle.setChecked(true);
                     } else if(Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER2)) {
                         mOmegaTestToggle.setChecked(false);
                     }
@@ -148,18 +160,13 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         @Override
         public void onGetAppVersion(String version) {
             mFWVersionView.setText(version);
-            if(!version.contains("4.")) {
-                mNonOmegaView.setVisibility(View.GONE);
-                mHeaderView.setText("Buttons Factory Test Omega");
-                mOmegaView.setVisibility(View.VISIBLE);
-            } else {
-                if(BuildConfig.isInternal) {
-                    mNonOmegaView.setVisibility(View.VISIBLE);
-                } else {
-                    mNonOmegaView.setVisibility(View.GONE);
-                }
-                mHeaderView.setText("Buttons Factory Test");
+            if(version.contains("4.")) {
                 mOmegaView.setVisibility(View.GONE);
+                mVAView.setVisibility(View.VISIBLE);
+
+            } else {
+                mOmegaView.setVisibility(View.VISIBLE);
+                mVAView.setVisibility(View.GONE);
             }
         }
 
@@ -221,7 +228,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.buttons_test_layout);
 
         mContext = this;
-
+        getApplication().registerOnProvideAssistDataListener(this);
         mSerialNumberView = ((TextView) findViewById(R.id.serialNo));
         mMacAddressView = ((TextView) findViewById(R.id.mac));
         mFWVersionView = ((TextView) findViewById(R.id.fwversion));
@@ -229,6 +236,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mBatteryIndicator = findViewById(R.id.batteryview);
         mBatteryView = ((TextView) findViewById(R.id.battery));
         mOmegaView = findViewById(R.id.omegaView);
+        mVAView = findViewById(R.id.vaview);
         mHeaderView = findViewById(R.id.header);
         mNonOmegaView = findViewById(R.id.nonOmegaView);
         findViewById(R.id.radioProductionFota).setOnClickListener(this);
@@ -238,6 +246,13 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         Config.setChannel(mContext, Config.QA);
         findViewById(R.id.radioDevFota).setOnClickListener(this);
 
+        if(BuildConfig.isInternal) {
+            mHeaderView.setText("Buttons Internal Test");
+            mNonOmegaView.setVisibility(View.VISIBLE);
+        } else {
+            mNonOmegaView.setVisibility(View.GONE);
+            mHeaderView.setText("Buttons Factory Test (China)");
+        }
         mOmegaTestToggle = (Switch) findViewById(R.id.testOmega);
         mOmegaTestToggle.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
             @Override
@@ -250,6 +265,20 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 }
             }
         });
+
+        mVATestToggle = (Switch) findViewById(R.id.testva);
+        mVATestToggle.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!mVATestResult) {
+                    mOmegaTestToggle.setChecked(false);
+                }
+                if (!b) {
+                    mVATestResult = b;
+                }
+            }
+        });
+
         mButtonsMicrophoneTest = new ButtonsMicrophoneTest();
         mButtonsMediaTest = new ButtonsMediaTest();
         //mMediaTestCallBacks = mButtonsMediaTest;
@@ -298,7 +327,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(mCSVfile, true);
                     if (mCSVfile.length() == 0) {
-                        String header = "Serial No,MAC No,UUID,FW version,Omega Test,Mic Test,Playback Test,Battery level(mv),Date,Test Status";
+                        String header = "Serial No,MAC No,UUID,FW version,Voice Assistant Test,Mic Test,Playback Test,Battery level(mv),Date,Test Status";
                         fileOutputStream.write(header.getBytes());
                         fileOutputStream.write(System.lineSeparator().getBytes());
                     }
@@ -306,7 +335,11 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                     fileOutputStream.write((mMacAddressView.getText().toString() + ",").getBytes());
                     fileOutputStream.write((mUUIDView.getText().toString() + ",").getBytes());
                     fileOutputStream.write((mFWVersionView.getText().toString() + ",").getBytes());
-                    fileOutputStream.write(mOmegaTestResult ? "true,".getBytes() : "false,".getBytes());
+                    if (mSerialNumberView.getText().toString().contains("3.")) {
+                        fileOutputStream.write(mOmegaTestResult ? "true,".getBytes() : "false,".getBytes());
+                    } else {
+                        fileOutputStream.write(mVATestResult ? "true,".getBytes() : "false,".getBytes());
+                    }
                     fileOutputStream.write(mButtonsMicrophoneTest.getMicrophoneTestResult() ? "true,".getBytes() : "false,".getBytes());
                     fileOutputStream.write(mButtonsMediaTest.getMediaTestResult() ? "true,".getBytes() : "false,".getBytes());
                     fileOutputStream.write((mBatteryLevel + "mv,").getBytes());
@@ -316,7 +349,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                     String formattedDate = df.format(c.getTime());
                     fileOutputStream.write((formattedDate + ",").getBytes());
 
-                    String result = (mOmegaTestResult &&
+                    String result = (mOmegaTestResult && mVATestResult &&
                             mButtonsMediaTest.getMediaTestResult() &&
                             mButtonsMicrophoneTest.getMicrophoneTestResult()) ? "PASS" : "FAIL";
                     fileOutputStream.write(result.getBytes());
@@ -362,6 +395,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
 
     private void reset() {
         mOmegaTestToggle.setChecked(false);
+        mVATestToggle.setChecked(false);
         mButtonsMediaTest.resetToggle();
         mButtonsMicrophoneTest.resetToggle();
     }
@@ -387,6 +421,9 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mController.getSerialNumber();
         mController.getAppVersion();
         mController.getBatteryLevel();
+        if(getIntent().getAction().contains("VOICE") ) {
+           mVATestToggle.setChecked(true);
+        }
         if (mController.getBluetoothDevice() != null) {
             ((TextView) findViewById(R.id.mac)).setText(mController.getBluetoothDevice().getAddress());
         }
@@ -416,6 +453,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         mController.unRegisterListener(mCallback);
+        getApplication().unregisterOnProvideAssistDataListener(this);
     }
 
     private void bindToMusicService() {
@@ -474,5 +512,45 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                 Config.setChannel(mContext, Config.QA);
                 break;
         }
+    }
+
+    @Override
+    public void onProvideAssistData(Activity activity, Bundle data) {
+        Log.d(TAG, "onProvideAssistData: ");
+    }
+
+    @Override
+    public void onProvideAssistData(Bundle data) {
+        super.onProvideAssistData(data);
+        Log.d(TAG, "onProvideAssistData: ");
+    }
+
+    @Override
+    public void onProvideAssistContent(AssistContent outContent) {
+        super.onProvideAssistContent(outContent);
+        Log.d(TAG, "onProvideAssistContent: ");
+    }
+    public class MyAssistantSessionService
+            extends VoiceInteractionSessionService {
+        @Override
+        public VoiceInteractionSession onNewSession(Bundle bundle) {
+            return new MyAssistantSession(this);
+        }
+    }
+
+
+    public class MyAssistantSession extends VoiceInteractionSession {
+        @Override
+        public void onHandleAssist(@Nullable Bundle data, @Nullable AssistStructure structure, @Nullable AssistContent content) {
+            super.onHandleAssist(data, structure, content);
+
+        }
+
+        public MyAssistantSession(Context context) {
+            super(context);
+        }
+    }
+    public class MyAssistantService extends VoiceInteractionService {
+
     }
 }

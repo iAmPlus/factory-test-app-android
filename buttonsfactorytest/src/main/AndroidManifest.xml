@@ -32,11 +32,14 @@
         <activity
             android:name="com.iamplus.buttonsfactorytest.ButtonsTestActivity"
             android:label="@string/app_name"
+            android:supportsAssist="true"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:exported="true"
+            android:sessionService="com.iamplus.buttonsfactorytest.ButtonsTestActivity.MyAssistantSessionService"
+            android:recognitionService="com.iamplus.buttonsfactorytest.ButtonsTestActivity.MyAssistantService"
             android:screenOrientation="portrait">
             <intent-filter>
-
+                <action android:name="android.service.voice.VoiceInteractionService"/>
                 <action android:name="android.intent.action.VOICE_COMMAND"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.MAIN"/>

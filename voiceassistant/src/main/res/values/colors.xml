@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2018 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <!-- THEME COLOURS -->
+    <color name="colorPrimary">@color/blue_33</color>
+    <color name="colorPrimaryDark">@color/blue_dark_tone_20</color>
+    <color name="windowBackground">@color/white</color>
+    <color name="colorAccent">@color/orange_54</color>
+    <color name="textColorPrimary">@color/body_text</color>
+    <color name="textColorSecondary">@color/med_grey</color>
+
+    <!-- COLOURS -->
+    <color name="blue_33">#005daa</color>
+    <color name="blue_dark_tone_20">#003866</color>
+    <color name="blue_light_tone_50">#008cff</color>
+    <color name="blue_light_tone_65">#4dafff</color>
+    <color name="orange_54">#F7921E</color>
+    <color name="orange_light_tone_60">#f89f3a</color>
+    <color name="red_54">#EE3124</color>
+    <color name="red_light_tone_60">#f14d41</color>
+    <color name="grass_52">#9FCC3B</color>
+    <color name="body_text">#333333</color>
+    <color name="med_grey">#85898B</color>
+    <color name="light_grey_B">#BBBBBB</color>
+    <color name="light_grey_D">#DDDDDD</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- COMPONENT COLOURS -->
+    <color name="button_flat_text">@color/colorAccent</color>
+    <color name="button_flat_disabled_text">@color/light_grey_B</color>
+    <color name="button_flat_background">@color/windowBackground</color>
+    <color name="divider">@color/light_grey_D</color>
+    <color name="card_border">@color/light_grey_D</color>
+    <color name="white_transparent">#AAFFFFFF</color>
+
+</resources>

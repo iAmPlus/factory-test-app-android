@@ -1,0 +1,104 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright 2018 Qualcomm Technologies International, Ltd.                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<resources>
+
+    <string name="app_name">Voice Assistant</string>
+
+    <!-- NAVIGATION -->
+    <string name="title_status">Status</string>
+    <string name="title_events">Events</string>
+
+    <!-- CARDS -->
+    <string name="device_card_title">Device</string>
+    <string name="assistant_card_title">Assistant</string>
+    <string name="button_select_assistant">Select an assistant</string>
+    <string name="button_connect_device">Connect a device</string>
+    <string name="empty_string">-</string>
+
+    <!-- DEVICE CONNECTION STATES -->
+    <string name="device_state_connected">Connected</string>
+    <string name="device_state_disconnected">Disconnected</string>
+    <string name="device_state_connecting">Connecting&#8230;</string>
+    <string name="device_state_disconnecting">Disconnecting&#8230;</string>
+    <string name="device_state_unknown">Unknown connection state</string>
+
+    <!-- DEVICE IVOR STATES -->
+    <string name="ivor_state_answer_ending">Sending answer end</string>
+    <string name="ivor_state_answer_playing">Waiting for answer to be finished</string>
+    <string name="ivor_state_answer_starting">Sending answer start</string>
+    <string name="ivor_state_cancelling">Cancelling</string>
+    <string name="ivor_state_idle">Ready</string>
+    <string name="ivor_state_session_started">Starting session</string>
+    <string name="ivor_state_unavailable">VA feature not available on device</string>
+    <string name="ivor_state_voice_ended">Waiting for answer</string>
+    <string name="ivor_state_voice_ending">Sending voice end</string>
+    <string name="ivor_state_voice_requested">Voice requested</string>
+    <string name="ivor_state_voice_requesting">Sending voice request</string>
+    <string name="ivor_state_unknown">Unknown state</string>
+
+    <!-- DEVICE ERRORS -->
+    <string name="device_error_default">Unexpected error with device</string>
+    <string name="device_connection_error_failed">Connection has failed</string>
+    <string name="device_connection_error_lost">Connection with device is lost</string>
+    <string name="device_no_data_error_title">No more data</string>
+    <string name="device_no_data_error_message">The device stopped to stream the voice data. Session is
+        cancelled.</string>
+
+    <!-- ASSISTANT STATUS -->
+    <string name="assistant_status_initialising">Initialising&#8230;</string>
+    <string name="assistant_status_ready">Ready</string>
+    <string name="assistant_status_cancelling">Cancelling session</string>
+    <string name="assistant_status_waiting_for_response">Waiting for response</string>
+    <string name="assistant_status_streaming">Streaming</string>
+    <string name="assistant_status_starting">Starting session</string>
+    <string name="assistant_status_playing">Playing answer</string>
+    <string name="assistant_status_unavailable">Unavailable</string>
+
+    <!-- ASSISTANT ERRORS -->
+    <string name="assistant_error_title">Assistant error</string>
+    <string name="assistant_error_default_message">An error occurs with the assistant, please try again later.</string>
+    <string name="assistant_error_not_initialised_message">The assistant is not initialised, please select the assistant
+        again to reset it.<br/> This can happen when the account had been logged off or the assistant reset after
+        an error.</string>
+    <string name="assistant_error_playing_failed_message">The assistant could not play the response.</string>
+    <string name="assistant_error_no_response">The assistant did not send a response to the request within 40s.</string>
+
+    <!-- IVOR ERRORS -->
+    <string name="ivor_error_title">Device error</string>
+    <string name="ivor_error_default_message">The device cancelled the session for the following reason:</string>
+    <string name="ivor_error_cancelled_by_user">Session cancelled by user on device</string>
+
+    <!-- OTHER ERRORS -->
+    <string name="call_error_title">Call error</string>
+    <string name="call_error_message">The Android device is receiving, calling or in a call. Any current
+        session had been cancelled.</string>
+
+    <!-- ASSISTANT TYPES -->
+    <string name="assistant_type_loopback">Loopback assistant</string>
+    <string name="assistant_type_loopback_information">Records the voice and plays it</string>
+
+    <!-- SESSION STATUS -->
+    <string name="session_state_unavailable">Not available: no Bluetooth, no device, no assistant or in a call.</string>
+    <string name="session_state_ready">Ready for a voice assistant session</string>
+    <string name="session_state_running">Running a voice assistant session</string>
+    <string name="session_state_cancelling">Cancelling the voice assistant session</string>
+    <string name="session_state_error_unknown">Unknown error during session</string>
+
+    <!-- IMAGE -->
+    <string name="empty_content_description"/>
+
+    <!-- BUTTON -->
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_reset">Force reset</string>
+    <string name="button_loopback_assistant">Loopback assistant</string>
+
+    <!-- ALERTS -->
+    <string name="alert_permissions_title">Permissions required</string>
+    <string name="alert_permissions_message">Please enable the MEDIA permission which is required to use and create
+        files, and the phone call management which is required to stop the assistant while the device is in a call
+        state and the record audio permission for this device to capture and use the voice.</string>
+
+</resources>

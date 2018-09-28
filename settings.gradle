@@ -6,4 +6,6 @@ include ':gaiacontrol',
         ':GaiaLibrary',
         ':tws-library',
         ':twsfactorytest',
-        ':system-updater'
+        ':system-updater',
+        ':assistantlibrary',
+        ':voiceassistant'
