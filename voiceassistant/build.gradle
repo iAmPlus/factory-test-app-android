@@ -2,7 +2,7 @@
  * Copyright 2018 Qualcomm Technologies International, Ltd.                                       *
  **************************************************************************************************/
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
@@ -11,11 +11,8 @@ android {
     def version = getVersion()
 
     defaultConfig {
-        applicationId "com.qualcomm.qti.voiceassistant"
         minSdkVersion 23
         targetSdkVersion 26
-        versionCode getVersionCode(version)
-        versionName getVersionName(version)
     }
 
     buildTypes {
@@ -38,51 +35,3 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
 }
 
-def getVersion() {
-    def versionPropsFile = file('version.properties')
-
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-        def FileInputStream file = new FileInputStream(versionPropsFile)
-        versionProps.load(file)
-        file.close()
-        return versionProps
-    } else {
-        throw new GradleException("getVersion(): could not read version.properties!")
-    }
-}
-
-/**
- * <p>Get the version code number from the given properties.</p>
- *
- * @param version
- *          The properties information coming from the version.properties file which shall contain values for the
- *          following key: VERSION_CODE.
- *
- *
- * @return An integer get from the properties.
- */
-static def int getVersionCode(Properties version) {
-    return version['VERSION_CODE'].toInteger()
-}
-
-/**
- * <p>Build the version name for the application based on the version values from the version.properties file.<br/>
- * The version code is as follows: "<code>a.b.c.d</code>" with:</p>
- * <ul>
- *     <li>a as the VERSION_MAJOR</li>
- *     <li>b as the VERSION_MINOR</li>
- *     <li>c as the VERSION_REVISION</li>
- *     <li>d as the VERSION_CODE</li>
- * </ul>
- *
- * @param version
- *          The properties information coming from the version.properties file which shall contain values for the
- *          following keys: VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION and VERSION_CODE.
- *
- * @return A String built using the format "a.b.c build d" from the version numbers.
- */
-static def String getVersionName(Properties version) {
-    return version['VERSION_MAJOR'] + "." + version['VERSION_MINOR'] + "." + version['VERSION_REVISION'] +
-            "." + version['VERSION_CODE'];
-}

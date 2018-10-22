@@ -2,6 +2,7 @@ package com.iamplus.buttonsfactorytest;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Fragment;
 import android.app.Notification;
 import android.app.assist.AssistContent;
 import android.app.assist.AssistStructure;
@@ -43,6 +44,8 @@ import com.csr.gaiacontrol.Controller;
 import com.csr.gaiacontrol.Events;
 import com.csr.gaiacontrol.SimpleCallback;
 import com.iamplus.systemupdater.Config;
+import com.qualcomm.qti.voiceassistant.activities.MainActivity;
+import com.qualcomm.qti.voiceassistant.ui.StatusFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -71,6 +74,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     private Switch mVATestToggle;
     private AudioManager mAudioManager;
     private ButtonsMediaTest mButtonsMediaTest;
+    private StatusFragment mStatusFragment;
     private ButtonsMicrophoneTest mButtonsMicrophoneTest;
     private TextView mSerialNumberView;
     private TextView mMacAddressView;
@@ -86,6 +90,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     private TextView mBatteryView;
     private View mOmegaView;
     private View mVAView;
+    private View mVoiceAView;
     private TextView mHeaderView;
     private View mBatteryIndicator;
     private boolean mGaiaConnected;
@@ -160,13 +165,16 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         @Override
         public void onGetAppVersion(String version) {
             mFWVersionView.setText(version);
-            if(version.contains("4.")) {
-                mOmegaView.setVisibility(View.GONE);
-                mVAView.setVisibility(View.VISIBLE);
 
-            } else {
+            mOmegaView.setVisibility(View.GONE);
+            mVAView.setVisibility(View.GONE);
+            mVoiceAView.setVisibility(View.GONE);
+            if(version.contains("4.")) {
+                mVAView.setVisibility(View.VISIBLE);
+            } else if(version.contains("3.")) {
                 mOmegaView.setVisibility(View.VISIBLE);
-                mVAView.setVisibility(View.GONE);
+            } else if(version.contains("5.")) {
+                mVoiceAView.setVisibility(View.VISIBLE);
             }
         }
 
@@ -193,6 +201,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             mBound = true;
             MusicService.LocalBinder binder = (MusicService.LocalBinder) iBinder;
             MusicService service = binder.getService();
+            if(!mButtonsMediaTest.isDetached() && mButtonsMediaTest.isAdded())
             mButtonsMediaTest.setMusicController(service.getMusicController());
         }
 
@@ -235,10 +244,14 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mUUIDView = ((TextView) findViewById(R.id.uuid));
         mBatteryIndicator = findViewById(R.id.batteryview);
         mBatteryView = ((TextView) findViewById(R.id.battery));
+
         mOmegaView = findViewById(R.id.omegaView);
         mVAView = findViewById(R.id.vaview);
+        mVoiceAView = findViewById(R.id.voiceassistant);
         mHeaderView = findViewById(R.id.header);
         mNonOmegaView = findViewById(R.id.nonOmegaView);
+
+
         findViewById(R.id.radioProductionFota).setOnClickListener(this);
         RadioButton qaButton = findViewById(R.id.radioQaFota);
         qaButton.setOnClickListener(this);
@@ -281,10 +294,13 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
 
         mButtonsMicrophoneTest = new ButtonsMicrophoneTest();
         mButtonsMediaTest = new ButtonsMediaTest();
+        mStatusFragment = new StatusFragment();
         //mMediaTestCallBacks = mButtonsMediaTest;
         if (checkPermission()) {
             getFragmentManager().beginTransaction().add(R.id.mptestcontainer, mButtonsMicrophoneTest).commit();
             getFragmentManager().beginTransaction().add(R.id.mediatestcontainer, mButtonsMediaTest).commit();
+            getFragmentManager().beginTransaction().add(R.id.voiceassistant, mStatusFragment).commit();
+
         } else {
             requestPermission();
         }
@@ -307,7 +323,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: ");
-                Intent intentEqualizer = new Intent(mContext, EqualizerActivity.class);
+                Intent intentEqualizer = new Intent(mContext, MainActivity.class);
                 startActivity(intentEqualizer);
             }
         });
@@ -416,6 +432,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        bindToMusicService();
         mController.establishGAIAConnection();
         mController.getUUID();
         mController.getSerialNumber();
@@ -430,20 +447,8 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        bindToMusicService();
-        //connectToHandsFreeService();
-    }
-
-    private void connectToHandsFreeService() {
-        Intent i = new Intent(this, HandsFreeService.class);
-        bindService(i, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         if (mBound) {
             unbindService(mConnection);
         }
@@ -480,6 +485,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                     if (StoragePermission && RecordPermission) {
                         getFragmentManager().beginTransaction().add(R.id.mptestcontainer, mButtonsMicrophoneTest).commit();
                         getFragmentManager().beginTransaction().add(R.id.mediatestcontainer, mButtonsMediaTest).commit();
+                        getFragmentManager().beginTransaction().add(R.id.voiceassistant, mStatusFragment).commit();
                         Toast.makeText(this, "Permission Granted",
                                 Toast.LENGTH_LONG).show();
                     } else {
@@ -530,6 +536,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         super.onProvideAssistContent(outContent);
         Log.d(TAG, "onProvideAssistContent: ");
     }
+
     public class MyAssistantSessionService
             extends VoiceInteractionSessionService {
         @Override

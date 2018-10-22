@@ -76,7 +76,7 @@
         session had been cancelled.</string>
 
     <!-- ASSISTANT TYPES -->
-    <string name="assistant_type_loopback">Loopback assistant</string>
+    <string name="assistant_type_loopback">Omega</string>
     <string name="assistant_type_loopback_information">Records the voice and plays it</string>
 
     <!-- SESSION STATUS -->

@@ -1,11 +1,8 @@
-include ':gaiacontrol',
-        ':buttonsfactorytest',
+include ':buttonsfactorytest',
         ':buttonstestcommon',
-        ':buttonsnonomega',
-        ':VMUpgradeLibrary',
-        ':GaiaLibrary',
-        ':tws-library',
-        ':twsfactorytest',
         ':system-updater',
+        ':gaiacontrol-old',
+        ':voiceassistant',
         ':assistantlibrary',
-        ':voiceassistant'
+        ':gaialibrary-old',
+        ':VMUpgradelibrary-old'

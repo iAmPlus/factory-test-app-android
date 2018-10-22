@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.library'
 
 android {
@@ -20,12 +21,13 @@ android {
     productFlavors {
     }
 }
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:23.2.0'
-    implementation 'com.android.support:recyclerview-v7:23.2.0'
-    implementation 'com.android.support:gridlayout-v7:23.2.0'
-    compile project(':GaiaLibrary')
-    compile project(':VMUpgradeLibrary')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile project(':blelibrary')
+    compile project(':gaialibrary')
+    compile project(':vmupgradelibrary')
 }

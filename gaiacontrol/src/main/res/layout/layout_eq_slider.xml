@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Qualcomm Technologies International, Ltd.                                      ~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-<com.iamplus.buttonsfactorytest.views.SliderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qualcomm.qti.gaiacontrol.ui.SliderLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -60,4 +60,4 @@
         android:layout_height="wrap_content" />
 
 
-</com.iamplus.buttonsfactorytest.views.SliderLayout>
+</com.qualcomm.qti.gaiacontrol.ui.SliderLayout>

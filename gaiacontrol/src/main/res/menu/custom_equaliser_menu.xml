@@ -1,5 +1,5 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Qualcomm Technologies International, Ltd.                                      ~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
@@ -8,7 +8,7 @@
     tools:context=".CustomEqualizerActivity">
     <item
         android:id="@+id/action_refresh_equaliser"
-        android:icon="@drawable/ic_refresh"
+        android:icon="@drawable/ic_refresh_24dp"
         android:title="@string/action_refresh_equalizer"
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />

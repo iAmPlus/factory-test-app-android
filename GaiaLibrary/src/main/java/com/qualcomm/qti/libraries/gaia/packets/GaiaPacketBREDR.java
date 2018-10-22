@@ -1,4 +1,4 @@
-/* ************************************************************************************************
+/**************************************************************************************************
  * Copyright 2017 Qualcomm Technologies International, Ltd.                                       *
  **************************************************************************************************/
 
@@ -72,7 +72,7 @@ public class GaiaPacketBREDR extends GaiaPacket {
     /**
      * <p>The maximum length of a complete packet.</p>
      */
-    public static final int MAX_PACKET = 263;
+    public static final int MAX_PACKET = 270;
     /**
      * <p>The maximum length for the packet payload.</p>
      */

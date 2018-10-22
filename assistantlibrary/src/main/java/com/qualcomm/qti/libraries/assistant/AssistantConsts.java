@@ -16,7 +16,7 @@ public final class AssistantConsts {
         /**
          * <p>To display or hide the logs for the {@link AssistantManager AssistantManager} class.</p>
          */
-        public static final boolean ASSISTANT_MANAGER = false;
+        public static final boolean ASSISTANT_MANAGER = true;
         /**
          * <p>To display or hide the logs for the
          * {@link com.qualcomm.qti.libraries.assistant.ivor.IvorManager IvorManager} class.</p>
@@ -36,7 +36,7 @@ public final class AssistantConsts {
          * <p>To display or hide the logs for the
          * {@link com.qualcomm.qti.libraries.assistant.bluetooth.BREDRProvider BREDRProvider} class.</p>
          */
-        public static final boolean BR_EDR_PROVIDER = false;
+        public static final boolean BR_EDR_PROVIDER = true;
     }
 
     /**

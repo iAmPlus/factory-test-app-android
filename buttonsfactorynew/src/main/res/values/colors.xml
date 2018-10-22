@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="app_color_primary">@color/primary</color>
+    <color name="app_color_primary_dark">@color/primary_dark</color>
+    <color name="app_color_accent">@color/accent</color>
+    <color name="deep_green_700_alpha_50">#80388E3C</color>
+    <color name="app_background_color">#ffffffff</color>
+
+
+    <color name="primary">#d1b8b8</color>
+    <color name="primary_dark">#916a6a</color>
+
+    <color name="accent">#916a6a</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+
+
+    <color name="inner_circle">#b6a1a1</color>
+    <color name="outer_circle">#d9c1c1</color>
+</resources>

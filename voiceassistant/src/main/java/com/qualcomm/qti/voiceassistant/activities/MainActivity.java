@@ -314,8 +314,8 @@ public class MainActivity extends ServiceActivity implements StatusFragment.Stat
 
             case Enums.DeviceMessage.DEVICE_INFORMATION:
                 BluetoothDevice device = (BluetoothDevice) content;
-                mStatusFragment.refreshDevice(device.getName(), device.getAddress());
-                displayEventOnUI("Selected device is " + device.getName());
+                //mStatusFragment.refreshDevice(device.getName(), device.getAddress());
+                //displayEventOnUI("Selected device is " + device.getName());
                 break;
 
             case Enums.DeviceMessage.IVOR_STATE:
@@ -434,13 +434,13 @@ public class MainActivity extends ServiceActivity implements StatusFragment.Stat
         BottomNavigationView.OnNavigationItemSelectedListener navigationListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_status:
-                        replaceFragment(mStatusFragment);
-                        return true;
-                    case R.id.navigation_events:
-                        replaceFragment(mEventsFragment);
-                        return true;
+                int i = item.getItemId();
+                if (i == R.id.navigation_status) {
+                    //replaceFragment(mStatusFragment);
+                    return true;
+                } else if (i == R.id.navigation_events) {
+                    replaceFragment(mEventsFragment);
+                    return true;
                 }
                 return false;
             }
@@ -453,7 +453,7 @@ public class MainActivity extends ServiceActivity implements StatusFragment.Stat
         mEventsFragment = EventsFragment.newInstance();
         mScrollView = findViewById(R.id.scroll_view);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mStatusFragment).commit();
+        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, mStatusFragment).commit();
 
         TextView textVersion = findViewById(R.id.tv_app_version);
         textVersion.setText(BuildConfig.VERSION_NAME);
@@ -496,8 +496,8 @@ public class MainActivity extends ServiceActivity implements StatusFragment.Stat
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         BluetoothDevice device = adapter.getSelectedDevice();
-                        mStatusFragment.refreshDevice(device.getName(), device.getAddress());
-                        displayEventOnUI("Selected device is: " + device.getName());
+                        //mStatusFragment.refreshDevice(device.getName(), device.getAddress());
+                        //displayEventOnUI("Selected device is: " + device.getName());
                         if (mService != null
                                 && ((mService.getDevice() != null && !mService.getDevice().equals(device))
                                 || mService.getConnectionState() != AssistantEnums.ConnectionState.CONNECTED)) {

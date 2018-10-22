@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Qualcomm Technologies International, Ltd.                                      ~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
@@ -11,7 +11,8 @@
                 <shape android:shape="rectangle" >
                     <solid android:color="@color/button_remote_background" />
                     <corners
-                        android:bottomLeftRadius="@dimen/corner_remote_round_button" android:bottomRightRadius="@dimen/corner_remote_round_button" />
+                        android:bottomLeftRadius="@dimen/corner_remote_round_button"
+                        android:bottomRightRadius="@dimen/corner_remote_round_button" />
                 </shape>
             </item>
             <item android:top="0dp" android:left="0dp">
@@ -25,7 +26,8 @@
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/button_remote_background" />
-            <corners android:bottomLeftRadius="@dimen/corner_remote_round_button" android:bottomRightRadius="@dimen/corner_remote_round_button" />
+            <corners android:bottomLeftRadius="@dimen/corner_remote_round_button"
+                     android:bottomRightRadius="@dimen/corner_remote_round_button" />
         </shape>
     </item>
 

@@ -4,15 +4,15 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
-                                             android:background="@drawable/card_background"
-                                             android:padding="@dimen/margin_half">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_background">
 
     <TextView
         android:id="@+id/tv_card_title"
         android:layout_width="0dp"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,6 +22,7 @@
 
     <View
         android:id="@+id/v_card_divider"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/divider"
@@ -33,6 +34,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_card_information"
+        android:padding="5dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,10 +73,10 @@
             app:layout_constraintStart_toEndOf="@id/iv_card_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/bt_card_action"
-            android:textColor="@color/blue_light_tone_50"
-            android:textSize="@dimen/text_size_title"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/text_size_body"
             android:textAlignment="textStart"
-            android:layout_margin="@dimen/margin_half" />
+            android:layout_margin="5dp" />
 
         <TextView
             android:id="@+id/tv_card_item_subtext"
@@ -86,7 +88,7 @@
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_size_body"
             android:textAlignment="textStart"
-            android:layout_margin="@dimen/margin_half" />
+            android:layout_margin="5dp" />
 
         <LinearLayout
             android:id="@+id/ll_card_status_list"
@@ -109,5 +111,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="@string/empty_string"
         android:visibility="visible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_card_information"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_gravity="center" >
+
+        <Button
+            android:id="@+id/bt_reset"
+            android:visibility="gone"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_reset"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:enabled="false"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

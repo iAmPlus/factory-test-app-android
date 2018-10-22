@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Qualcomm Technologies International, Ltd.                                      ~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +26,7 @@
             android:paddingLeft="@dimen/padding_remote_big"
             android:paddingTop="@dimen/padding_remote_big"
             android:paddingBottom="@dimen/padding_remote_big"
-            android:src="@drawable/ic_volume_up"
+            android:src="@drawable/ic_volume_up_48dp"
             android:tint="@color/button_remote_image" />
 
         <ImageButton
@@ -40,7 +40,7 @@
             android:paddingLeft="@dimen/padding_remote_big"
             android:paddingTop="@dimen/padding_remote_big"
             android:paddingBottom="@dimen/padding_remote_big"
-            android:src="@drawable/ic_volume_down"
+            android:src="@drawable/ic_volume_down_48dp"
             android:tint="@color/button_remote_image" />
     </LinearLayout>
 
@@ -57,7 +57,7 @@
         android:paddingLeft="@dimen/padding_remote_small"
         android:paddingTop="@dimen/padding_remote_small"
         android:paddingBottom="@dimen/padding_remote_small"
-        android:src="@drawable/ic_mute"
+        android:src="@drawable/ic_mute_48dp"
         android:tint="@color/button_remote_image" />
 
 </RelativeLayout>

@@ -1,11 +1,12 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright 2015 Qualcomm Technologies International, Ltd.                                      ~
+  ~ Copyright 2017 Qualcomm Technologies International, Ltd.                                      ~
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.qualcomm.qti.gaiacontrol.activities.EqualizerActivity">
 
     <include layout="@layout/toolbar"
         android:id="@+id/tb_menu" />
@@ -35,7 +36,6 @@
 
             <Switch
                 android:id="@+id/sw_bass"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/switch_bass"
@@ -76,11 +76,11 @@
                 layout="@layout/layout_presets" />
 
             <Button
-                android:id="@+id/bt_configure_bank_1"
+                android:id="@+id/bt_configure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Flat"
-                android:text="@string/button_configure_bank_1"
+                android:text="@string/button_configure"
                 android:layout_marginBottom="@dimen/margin_horizontal" />
 
         </LinearLayout>

@@ -176,7 +176,7 @@ public class StatusView extends FrameLayout {
 
         mText.setText(text);
         //noinspection deprecation
-        mText.setTextColor(getResources().getColor(colour));
+        mText.setTextColor(getResources().getColor(R.color.textColorPrimary));
 
         if (type != StatusType.PROGRESS && type != StatusType.EMPTY) {
             mIcon.setImageDrawable(getContext().getDrawable(drawable));

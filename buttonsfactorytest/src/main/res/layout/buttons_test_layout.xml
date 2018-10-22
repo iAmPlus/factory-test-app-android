@@ -16,6 +16,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_above="@+id/nonOmegaView"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header">
 
@@ -159,6 +161,11 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
+            <FrameLayout
+                android:id="@+id/voiceassistant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </FrameLayout>
 
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"

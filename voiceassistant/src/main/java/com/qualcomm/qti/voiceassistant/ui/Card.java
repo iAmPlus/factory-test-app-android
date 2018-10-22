@@ -141,16 +141,14 @@ public class Card extends FrameLayout implements View.OnClickListener {
 
     @Override //View.OnClickListener
     public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.bt_card_action:
-            case R.id.bt_card_select:
-                if (mType == CardType.DEVICE) {
-                    mListener.onSelectDevice();
-                }
-                else if (mType == CardType.ASSISTANT) {
-                    mListener.onSelectAssistant();
-                }
-                break;
+        int i = v.getId();
+        if (i == R.id.bt_card_action || i == R.id.bt_card_select) {
+            if (mType == CardType.DEVICE) {
+                mListener.onSelectDevice();
+            } else if (mType == CardType.ASSISTANT) {
+                mListener.onSelectAssistant();
+            }
+
         }
     }
 
@@ -195,6 +193,8 @@ public class Card extends FrameLayout implements View.OnClickListener {
         else {
             mCardImage.clearColorFilter();
         }
+
+        mCardImage.setVisibility(GONE);
     }
 
     /**
@@ -232,6 +232,7 @@ public class Card extends FrameLayout implements View.OnClickListener {
         mButtonSelect.setVisibility(display ? View.GONE : View.VISIBLE);
         mLayoutInformation.setVisibility(display ? View.VISIBLE : View.INVISIBLE);
         mAction.setVisibility(display && mType == CardType.ASSISTANT ? View.VISIBLE : View.INVISIBLE);
+        mAction.setVisibility(GONE);
     }
 
     /**
@@ -280,6 +281,7 @@ public class Card extends FrameLayout implements View.OnClickListener {
         mAction.setOnClickListener(this);
         mButtonSelect = findViewById(R.id.bt_card_select);
         mButtonSelect.setOnClickListener(this);
+        mButtonSelect.setVisibility(GONE);
         mLayoutInformation = findViewById(R.id.cl_card_information);
         mCardImage = findViewById(R.id.iv_card_image);
 
