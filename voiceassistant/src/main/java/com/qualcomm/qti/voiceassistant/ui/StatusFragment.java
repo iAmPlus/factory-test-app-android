@@ -20,6 +20,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ import static android.content.Context.BIND_AUTO_CREATE;
  * reset of the feature and to send some prerecorded data.</p>
  *
  */
-public class StatusFragment extends Fragment implements Card.CardListener {
+public class StatusFragment extends Fragment implements Card.CardListener, View.OnClickListener {
+    private static StatusFragment mStatusFragment;
 
     // ====== PRIVATE FIELDS ========================================================================
 
@@ -94,16 +96,20 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     /**
      * Returns a new instance of this fragment.
      */
-    public static StatusFragment newInstance() {
-        return new StatusFragment();
+    public void init(Context context) {
+        mContext = context;
+        Log.d("abhay", "init: ");
+        mHandler = new ActivityHandler(this);
+
+        if(mService != null) {
+            onLoopbackAssistantSelected();
+        }
+        if (mService == null) {
+            bindService();
+        }
+        initValues();
     }
 
-
-    // ====== CONSTRUCTOR ========================================================================
-
-    // default empty constructor, required for Fragment.
-    public StatusFragment() {
-    }
 
 
     // ====== FRAGMENT METHODS ========================================================================
@@ -111,15 +117,16 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     @Override // Fragment
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
-        mHandler = new ActivityHandler(this);
     }
 
     @Override // Fragment
     public void onResume() {
+        Log.d("abhay", "onResume: ");
         super.onResume();
         mIsPaused = false;
-
+        if(mService != null) {
+            onLoopbackAssistantSelected();
+        }
         if (mService == null) {
             bindService();
         }
@@ -129,6 +136,7 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     @Override
     public void onPause() {
         super.onPause();
+        Log.d("abhay", "onPause: ");
         mIsPaused = true;
     }
 
@@ -145,13 +153,8 @@ public class StatusFragment extends Fragment implements Card.CardListener {
         mSessionView = view.findViewById(R.id.session_view);
 
         View buttonReset = view.findViewById(R.id.bt_reset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                forceReset();
-            }
-        });
-
+        buttonReset.setOnClickListener(this);
+        Log.d("abhay", "onCreateView: ");
         return view;
     }
 
@@ -415,6 +418,12 @@ public class StatusFragment extends Fragment implements Card.CardListener {
         mDeviceCard.displayInformation(false);
     }
 
+    @Override
+    public void onClick(View view) {
+        Log.d("abhay", "onClick: ");
+        forceReset();
+    }
+
 
     // ====== INNER CLASS ==========================================================================
 
@@ -437,6 +446,7 @@ public class StatusFragment extends Fragment implements Card.CardListener {
                 mService = ((VoiceAssistantService.LocalBinder) service).getService();
                 mService.addHandler(mHandler);
                 mService.init();
+                Log.d("abhay", "onServiceConnected: ");
                 onVAServiceConnected(); // to inform subclass
             }
         }
@@ -451,6 +461,8 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     }
 
     private void bindService() {
+        Log.d("abhay", "bindService: ");
+        displayEventOnUI("abhay");
         // bind the service
         Intent gattServiceIntent = new Intent(mContext, VoiceAssistantService.class);
         mContext.bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -515,7 +527,6 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     protected void onVAServiceConnected() {
         mService.getStates();
         onLoopbackAssistantSelected();
-
         displayEventOnUI("Service is connected.");
     }
 
@@ -805,6 +816,7 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     public void forceReset() {
         displayEventOnUI("Request to force Reset");
         mService.forceReset();
+        onLoopbackAssistantSelected();
     }
 
 
@@ -820,15 +832,7 @@ public class StatusFragment extends Fragment implements Card.CardListener {
     }
 
     private void displayEventOnUI(String event) {
-        //Toast.makeText(mContext, event, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(mService != null) {
-            onLoopbackAssistantSelected();
-        }
+        Toast.makeText(mContext, event, Toast.LENGTH_SHORT).show();
     }
 
     public interface StatusFragmentListener {

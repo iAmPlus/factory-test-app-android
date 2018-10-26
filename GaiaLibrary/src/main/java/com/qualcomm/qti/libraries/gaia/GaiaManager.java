@@ -1,4 +1,4 @@
-/**************************************************************************************************
+/* ************************************************************************************************
  * Copyright 2017 Qualcomm Technologies International, Ltd.                                       *
  **************************************************************************************************/
 
@@ -84,7 +84,7 @@ public abstract class GaiaManager {
     /**
      * <p>To show the debug logs indicating when a method had been reached.</p>
      */
-    private boolean mShowDebugLogs = false;
+    private boolean mShowDebugLogs = true;
 
 
     // ====== CONSTRUCTOR ==========================================================================
@@ -171,7 +171,8 @@ public abstract class GaiaManager {
      */
     private void sendGAIAAcknowledgement(GaiaPacket packet, @GAIA.Status int status, @Nullable byte[] value) {
         if (mShowDebugLogs) {
-            Log.d(TAG, "Request to send acknowledgement for packet with command " + packet.getCommand());
+            Log.d(TAG, "Request to send acknowledgement for packet with command " + GaiaUtils
+                    .getHexadecimalStringFromInt(packet.getCommand()));
         }
 
         if (packet.isAcknowledgement()) {
@@ -285,6 +286,25 @@ public abstract class GaiaManager {
     }
 
     /**
+     * <p>To create a GAIA request to send a GAIA packet over the listener without expecting an acknowledgement.</p>
+     * <p>An acknowledgement might be received or not received, it is implementation dependant.</p>
+     * <p>Using this method, the acknowledgement of the packet won't be monitored. This means if there is no
+     * acknowledgement, the method {@link #hasNotReceivedAcknowledgementPacket(GaiaPacket)} will never be called.</p>
+     *
+     * @param packet
+     *            The packet to send over the listener.
+     */
+    protected void createUnacknowledgedRequest(GaiaPacket packet) {
+        if (mShowDebugLogs) {
+            Log.d(TAG, "Received request to send a packet with no acknowledgement for command: "
+                    + GaiaUtils.getGAIACommandToString(packet.getCommand()));
+        }
+        GaiaRequest request = new GaiaRequest(GaiaRequest.Type.UNACKNOWLEDGED_REQUEST);
+        request.packet = packet;
+        processRequest(request);
+    }
+
+    /**
      * <p>To create an acknowledgement GAIA request to send a packet over the listener.</p>
      *
      * @param packet
@@ -293,7 +313,7 @@ public abstract class GaiaManager {
     protected void createAcknowledgmentRequest(GaiaPacket packet, @GAIA.Status int status, @Nullable byte[] data) {
         if (mShowDebugLogs) {
             Log.d(TAG, "Received request to send an acknowledgement packet for command: "
-                    + GaiaUtils.getGAIACommandToString(packet.getCommand()) + "with status: "
+                    + GaiaUtils.getGAIACommandToString(packet.getCommand()) + " with status: "
                     + GAIA.getStatusToString(status));
         }
         GaiaAcknowledgementRequest request = new GaiaAcknowledgementRequest(status, data);
@@ -409,6 +429,20 @@ public abstract class GaiaManager {
                 }
                 return;
 
+            case GaiaRequest.Type.UNACKNOWLEDGED_REQUEST:
+                try {
+                    byte[] bytes = request.packet.getBytes();
+                    if (!sendGAIAPacket(bytes)) {
+                        Log.w(TAG, "Fail to send GAIA packet for GAIA command: " + request.packet.getCommandId());
+                        onSendingFailed(request.packet);
+                        return;
+                    }
+                }
+                catch (GaiaException e) {
+                    Log.w(TAG, "Exception when attempting to create GAIA packet: " + e.toString());
+                }
+                return;
+
             case GaiaRequest.Type.ACKNOWLEDGEMENT:
                 // GAIA request in order to acknowledge a packet
                 GaiaAcknowledgementRequest ackRequest = (GaiaAcknowledgementRequest) request;
@@ -454,6 +488,7 @@ public abstract class GaiaManager {
      * @return true if the packet has been acknowledged in this method. If the method returns false the packet will be
      * acknowledged with a {@link GAIA.Status#NOT_SUPPORTED} status.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     protected abstract boolean manageReceivedPacket(GaiaPacket packet);
 
     /**

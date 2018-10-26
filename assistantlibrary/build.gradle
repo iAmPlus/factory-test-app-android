@@ -42,7 +42,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // modules
-    compile project(':gaialibrary-old')
+    compile project(':gaialibrary')
 
     // components
     implementation 'com.android.support:appcompat-v7:27.0.0'

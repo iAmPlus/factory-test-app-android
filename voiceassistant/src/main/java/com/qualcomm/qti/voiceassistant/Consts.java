@@ -21,7 +21,7 @@ public final class Consts {
          * <p>To display or hide the logs for the
          * {@link com.qualcomm.qti.voiceassistant.service.VoiceAssistantService VoiceAssistantService} class.</p>
          */
-        public static final boolean VOICE_ASSISTANT_SERVICE = false;
+        public static final boolean VOICE_ASSISTANT_SERVICE = true;
         /**
          * <p>To display or hide the logs for the
          * {@link LoopbackAssistant LoopbackAssistant} class.</p>

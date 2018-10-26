@@ -111,6 +111,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             if (mController.getBluetoothDevice() != null) {
                 mMacAddressView.setText(mController.getBluetoothDevice().getAddress());
             }
+            Log.d(TAG, "onConnected: getSerialNumber");
             mController.getSerialNumber();
             mController.getUUID();
             mController.getAppVersion();
@@ -295,6 +296,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mButtonsMicrophoneTest = new ButtonsMicrophoneTest();
         mButtonsMediaTest = new ButtonsMediaTest();
         mStatusFragment = new StatusFragment();
+        mStatusFragment.init(this);
         //mMediaTestCallBacks = mButtonsMediaTest;
         if (checkPermission()) {
             getFragmentManager().beginTransaction().add(R.id.mptestcontainer, mButtonsMicrophoneTest).commit();
@@ -314,11 +316,15 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             @Override
             public void onClick(View v) {
                 mController.establishGAIAConnection();
+                if(mStatusFragment != null) {
+                    mStatusFragment.forceReset();
+                }
             }
         });
 
 
         mEQButton = ((Button) findViewById(R.id.eq));
+        mEQButton.setVisibility(View.GONE);
         mEQButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -433,7 +439,6 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
     protected void onResume() {
         super.onResume();
         bindToMusicService();
-        mController.establishGAIAConnection();
         mController.getUUID();
         mController.getSerialNumber();
         mController.getAppVersion();

@@ -5,4 +5,5 @@ include ':buttonsfactorytest',
         ':voiceassistant',
         ':assistantlibrary',
         ':gaialibrary-old',
+        ':gaialibrary',
         ':VMUpgradelibrary-old'

@@ -4,48 +4,29 @@
 
 package com.qualcomm.qti.libraries.assistant.ivor;
 
-import android.bluetooth.BluetoothDevice;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
-import com.csr.gaia.library.Gaia;
-import com.csr.gaia.library.GaiaAcknowledgementRequest;
-import com.csr.gaia.library.GaiaError;
-import com.csr.gaia.library.GaiaPacket;
-import com.csr.gaia.library.GaiaRequest;
-import com.csr.gaia.library.exceptions.GaiaFrameException;
-import com.csr.gaiacontrol.Callback;
-import com.csr.gaiacontrol.Controller;
-import com.csr.gaiacontrol.SimpleCallback;
-import com.csr.gaiacontrol.internal.ButtonsManager;
 import com.qualcomm.qti.libraries.assistant.AssistantConsts;
 import com.qualcomm.qti.libraries.assistant.AssistantEnums;
+import com.qualcomm.qti.libraries.gaia.GAIA;
+import com.qualcomm.qti.libraries.gaia.GaiaManager;
+import com.qualcomm.qti.libraries.gaia.packets.GaiaPacket;
+import com.qualcomm.qti.libraries.gaia.packets.GaiaPacketBREDR;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
- * <p>This class follows the Gaia protocol. It manages all IVOR messages which are sent and received over the protocol
+ * <p>This class follows the GAIA protocol. It manages all IVOR messages which are sent and received over the protocol
  * for the Voice Assistant feature.</p>
  */
-public class IvorManager {
+public class IvorManager extends GaiaManager {
 
     // ====== PRIVATE FIELDS =======================================================================
 
     /**
      * <p>The tag to display for logs.</p>
      */
-    /**
-     * <p>An array map which groups all Runnable for requests which have sent a GAIA packet and are waiting for the
-     * corresponding acknowledgement packet.</p>
-     */
-    private final ArrayMap<Integer, LinkedList<TimeOutRequestRunnable>> mTimeOutRequestRunnableMap = new ArrayMap<>();
-
     private final String TAG = "IvorManager";
     /**
      * To show the debugging logs of this class.
@@ -54,20 +35,18 @@ public class IvorManager {
     /**
      * <p>The IVOR version supported by this manager.</p>
      * <p>This array contains: {major, minor} to complete with the structure of the IVOR command
-     * {@link Gaia#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION}.</p>
+     * {@link GAIA#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION}.</p>
      */
     private static final byte[] VERSION = { 0x01, 0x00 };
-
-    private final Handler mListener;
-    private final Controller mController;
+    /**
+     * <p>The listener which implements the {@link IvorManagerListener IvorManagerListener} interface to communicate
+     * with a device which supports the IVOR/GAIA protocol.</p>
+     */
+    private final IvorManagerListener mListener;
     /**
      * <p>The current IVOR state of this manager.</p>
      */
     private @AssistantEnums.IvorState int mState = AssistantEnums.IvorState.UNAVAILABLE;
-
-    private @AssistantEnums.ConnectionState int mConnectionState = AssistantEnums.ConnectionState.DISCONNECTED;
-
-    private final Handler mHandler = new Handler();
 
 
     // ====== CONSTRUCTOR =======================================================================
@@ -76,13 +55,13 @@ public class IvorManager {
      * <p>Main constructor of this class to initiate the manager.</p>
      *
      * @param listener
+     *          The object which implements the {@link IvorManagerListener}
      */
-    public IvorManager(@NonNull Handler listener) {
-        super();
+    public IvorManager(@NonNull IvorManagerListener listener) {
+        super(GAIA.Transport.BR_EDR);
         this.mListener = listener;
+        showDebugLogs(AssistantConsts.Debug.GAIA_MANAGER);
         logState("new instance");
-        mController = Controller.getInstance();
-        mController.registerListener(mCallback);
     }
 
 
@@ -140,43 +119,6 @@ public class IvorManager {
         }
         else {
             setState(AssistantEnums.IvorState.UNAVAILABLE);
-        }
-    }
-
-
-    /**
-     * <p>To force a reset of the communication with the device. This method resets the IVOR manager and reconnects to
-     * the device if it was disconnected.</p>
-     */
-    public void forceReset() {
-        forceReset(getConnectionState() == AssistantEnums.ConnectionState.CONNECTED);
-        if (getConnectionState() == AssistantEnums.ConnectionState.DISCONNECTED && mController.getBluetoothDevice() != null) {
-            mController.establishGAIAConnection();
-        }
-    }
-
-    public synchronized @AssistantEnums.ConnectionState int getConnectionState() {
-        return mConnectionState;
-    }
-
-    public boolean disconnect() {
-        if (mConnectionState == AssistantEnums.ConnectionState.DISCONNECTED) {
-            Log.w(TAG, "disconnection failed: no device connected.");
-            return false;
-        }
-        mController.disconnect();
-        setConnectionState(AssistantEnums.ConnectionState.DISCONNECTED);
-
-        Log.i(TAG, "Provider disconnected from BluetoothDevice " + (mController.getBluetoothDevice() != null ? mController.getBluetoothDevice().getAddress() : "null"));
-
-        return true;
-    }
-
-    private synchronized void setConnectionState(@AssistantEnums.ConnectionState int state) {
-        mConnectionState = state;
-        mListener.obtainMessage(AssistantEnums.ProviderMessage.CONNECTION_STATE_HAS_CHANGED, state).sendToTarget();
-        if (state != AssistantEnums.ConnectionState.CONNECTED) {
-            reset();
         }
     }
 
@@ -308,36 +250,37 @@ public class IvorManager {
 
     // ====== PROTECTED METHODS ====================================================================
 
+    @Override // extends GaiaManager
     protected void receiveSuccessfulAcknowledgement(GaiaPacket packet) {
         switch (packet.getCommand()) {
-            case Gaia.COMMAND_IVOR_VOICE_DATA_REQUEST:
+            case GAIA.COMMAND_IVOR_VOICE_DATA_REQUEST:
                 receiveSuccessfulIvorVoiceDataRequestACK();
                 break;
 
-            case Gaia.COMMAND_IVOR_VOICE_END:
+            case GAIA.COMMAND_IVOR_VOICE_END:
                 receiveSuccessfulIvorVoiceEndACK();
                 break;
 
-            case Gaia.COMMAND_IVOR_ANSWER_START:
+            case GAIA.COMMAND_IVOR_ANSWER_START:
                 receiveSuccessfulIvorAnswerStartACK();
                 break;
 
-            case Gaia.COMMAND_IVOR_ANSWER_END:
+            case GAIA.COMMAND_IVOR_ANSWER_END:
                 receiveSuccessfulIvorAnswerEndACK();
                 break;
         }
     }
 
+    @Override // extends GaiaManager
     protected void receiveUnsuccessfulAcknowledgement(GaiaPacket packet) {
         switch (packet.getCommand()) {
-            case Gaia.COMMAND_IVOR_VOICE_DATA_REQUEST:
+            case GAIA.COMMAND_IVOR_VOICE_DATA_REQUEST:
                 if (mState == AssistantEnums.IvorState.VOICE_REQUESTING) {
                     Log.w(TAG, "Cancelling session: unsuccessful acknowledgement for COMMAND_IVOR_VOICE_DATA_REQUEST");
                     cancelSession(AssistantEnums.IvorError.UNEXPECTED_ERROR);
-                    mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                            AssistantEnums.IvorMessage.CANCEL_SESSION, 0, AssistantEnums.IvorError.UNEXPECTED_ERROR).sendToTarget();
+                    mListener.onIvorError(AssistantEnums.IvorError.UNEXPECTED_ERROR);
                 }
-            case Gaia.COMMAND_IVOR_VOICE_END:
+            case GAIA.COMMAND_IVOR_VOICE_END:
                 if (mState == AssistantEnums.IvorState.VOICE_ENDING) {
                     setState(AssistantEnums.IvorState.IDLE);
                 }
@@ -345,40 +288,42 @@ public class IvorManager {
         }
     }
 
-    protected void hasNotReceivedAcknowledgementPacket(int command) {
-        switch (command) {
-            case Gaia.COMMAND_IVOR_VOICE_DATA_REQUEST:
+    @Override // extends GaiaManager
+    protected void hasNotReceivedAcknowledgementPacket(GaiaPacket packet) {
+        switch (packet.getCommand()) {
+            case GAIA.COMMAND_IVOR_VOICE_DATA_REQUEST:
                 if (mState == AssistantEnums.IvorState.VOICE_REQUESTING) {
                     Log.w(TAG, "Cancelling session: no acknowledgement for COMMAND_IVOR_VOICE_DATA_REQUEST");
                     cancelSession(AssistantEnums.IvorError.UNEXPECTED_ERROR);
-                    mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                            AssistantEnums.IvorMessage.CANCEL_SESSION, 0, AssistantEnums.IvorError.UNEXPECTED_ERROR).sendToTarget();
+                    mListener.onIvorError(AssistantEnums.IvorError.UNEXPECTED_ERROR);
                 }
                 break;
         }
     }
 
+    @Override // extends GaiaManager
     protected boolean manageReceivedPacket(GaiaPacket packet) {
         switch (packet.getCommand()) {
-            case Gaia.COMMAND_IVOR_START:
+            case GAIA.COMMAND_IVOR_START:
                 return receiveIvorStart(packet);
 
-            case Gaia.COMMAND_IVOR_VOICE_DATA:
+            case GAIA.COMMAND_IVOR_VOICE_DATA:
                 return receiveIvorVoiceData(packet);
 
-            case Gaia.COMMAND_IVOR_CHECK_VERSION:
+            case GAIA.COMMAND_IVOR_CHECK_VERSION:
                 return receiveIvorCheckVersion(packet);
 
-            case Gaia.COMMAND_IVOR_CANCEL:
+            case GAIA.COMMAND_IVOR_CANCEL:
                 return receiveIvorCancel(packet);
-            
-            case Gaia.COMMAND_IVOR_VOICE_END:
+
+            case GAIA.COMMAND_IVOR_VOICE_END:
                 return receiveVoiceEnd(packet);
         }
 
         return false;
     }
 
+    @Override // extends GaiaManager
     protected void onSendingFailed(GaiaPacket packet) {
         // nothing to do: the failure is connection related, the GaiaBREDRProvider resets everything
         switch (mState) {
@@ -398,9 +343,15 @@ public class IvorManager {
         }
     }
 
+    @Override // extends GaiaManager
+    protected boolean sendGAIAPacket(byte[] packet) {
+        return mListener.sendGAIAPacket(packet);
+    }
+
+    @Override // overrides GaiaManager
     public void reset() {
+        super.reset();
         logState("reset manager");
-        resetTimeOutRequestRunnableMap();
         setState(AssistantEnums.IvorState.UNAVAILABLE);
     }
 
@@ -540,7 +491,7 @@ public class IvorManager {
 
     /**
      *
-     * @param packet The {@link Gaia#COMMAND_IVOR_START COMMAND_IVOR_START} packet which had been received.
+     * @param packet The {@link GAIA#COMMAND_IVOR_START COMMAND_IVOR_START} packet which had been received.
      *
      * @return True if the packet had been acknowledged by the method.
      */
@@ -550,13 +501,12 @@ public class IvorManager {
         switch (mState) {
             case AssistantEnums.IvorState.IDLE:
                 setState(AssistantEnums.IvorState.SESSION_STARTED);
-                createAcknowledgmentRequest(packet, Gaia.Status.SUCCESS, null);
-                mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                        AssistantEnums.IvorMessage.START_SESSION,0, null).sendToTarget();
+                createAcknowledgmentRequest(packet, GAIA.Status.SUCCESS, null);
+                mListener.startSession();
                 return true;
 
             case AssistantEnums.IvorState.UNAVAILABLE:
-                createAcknowledgmentRequest(packet, Gaia.Status.NOT_SUPPORTED, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.NOT_SUPPORTED, null);
                 Log.w(TAG, "receiveIvorStart: Voice assistant is UNAVAILABLE.");
                 return true;
 
@@ -570,7 +520,7 @@ public class IvorManager {
             case AssistantEnums.IvorState.VOICE_REQUESTING:
             case AssistantEnums.IvorState.SESSION_STARTED:
                 // start session requested while there is an ongoing session.
-                createAcknowledgmentRequest(packet, Gaia.Status.INCORRECT_STATE, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.INCORRECT_STATE, null);
                 Log.w(TAG, "receiveIvorStart: Incorrect state, state is " + AssistantEnums.getIvorStateLabel(mState));
                 return true;
         }
@@ -580,14 +530,15 @@ public class IvorManager {
 
     /**
      * <p>This method is called when this manager receives a
-     * {@link Gaia#COMMAND_IVOR_VOICE_DATA COMMAND_IVOR_VOICE_DATA} packet.</p>
+     * {@link GAIA#COMMAND_IVOR_VOICE_DATA COMMAND_IVOR_VOICE_DATA} packet.</p>
      * <p>If this manager is expecting some voice data, this method transmits the received payload to its listener by
+     * calling {@link IvorManagerListener#onReceiveGAIAPacket(byte[]) onReceiveGAIAPacket()}. This manager expects
      * for some voice data when it is in one of the following states:
      * {@link AssistantEnums.IvorState#VOICE_REQUESTING VOICE_REQUESTING} or
      * {@link AssistantEnums.IvorState#VOICE_REQUESTED VOICE_REQUESTED}.</p>
      * <p>Otherwise it ignores the packet.</p>
      *
-     * @param packet The {@link Gaia#COMMAND_IVOR_VOICE_DATA COMMAND_IVOR_VOICE_DATA} packet which has been received.
+     * @param packet The {@link GAIA#COMMAND_IVOR_VOICE_DATA COMMAND_IVOR_VOICE_DATA} packet which has been received.
      *
      * @return True if the packet was acknowledged by the method.
      */
@@ -597,12 +548,11 @@ public class IvorManager {
                 setState(AssistantEnums.IvorState.VOICE_REQUESTED);
             case AssistantEnums.IvorState.VOICE_REQUESTED:
                 // No acknowledgement for voice data during a session
-                mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                        AssistantEnums.IvorMessage.VOICE_DATA, 0, packet.getPayload());
+                mListener.receiveVoiceData(packet.getPayload());
                 return true;
 
             case AssistantEnums.IvorState.UNAVAILABLE:
-                createAcknowledgmentRequest(packet, Gaia.Status.NOT_SUPPORTED, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.NOT_SUPPORTED, null);
                 Log.w(TAG, "receiveIvorVoiceData: Voice assistant is UNAVAILABLE.");
                 return true;
 
@@ -626,13 +576,13 @@ public class IvorManager {
 
     /**
      * <p>This method is called when this manager receives a
-     * {@link Gaia#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION} packet.</p>
+     * {@link GAIA#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION} packet.</p>
      * <p>This method checks if the sent major and minor versions correspond to the one supported by this manager
      * and answers accordingly to the device.</p>
      * <p>If the version is not supported, an unsuccessful acknowledgement packet is sent with the status
-     * {@link Gaia.Status#INVALID_PARAMETER INVALID_PARAMETER}.</p>
+     * {@link GAIA.Status#INVALID_PARAMETER INVALID_PARAMETER}.</p>
      *
-     * @param packet The {@link Gaia#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION} packet which had been
+     * @param packet The {@link GAIA#COMMAND_IVOR_CHECK_VERSION COMMAND_IVOR_CHECK_VERSION} packet which had been
      * received.
      *
      * @return True if the packet was acknowledged by the method.
@@ -655,27 +605,26 @@ public class IvorManager {
             if (mState != AssistantEnums.IvorState.IDLE && mState != AssistantEnums.IvorState.UNAVAILABLE) {
                 // there is an ongoing session to cancel
                 cancelSession(AssistantEnums.IvorError.UNAVAILABLE);
-                mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                        AssistantEnums.IvorMessage.CANCEL_SESSION, 0, AssistantEnums.IvorError.UNAVAILABLE).sendToTarget();
+                mListener.onIvorError(AssistantEnums.IvorError.UNAVAILABLE);
             }
             setState(AssistantEnums.IvorState.UNAVAILABLE);
         }
 
         // acknowledge the support
-        Gaia.Status status = supported ? Gaia.Status.SUCCESS : Gaia.Status.INVALID_PARAMETER;
+        @GAIA.Status int status = supported ? GAIA.Status.SUCCESS : GAIA.Status.INVALID_PARAMETER;
         createAcknowledgmentRequest(packet, status, null);
         return true;
     }
 
     /**
      * <p>This method is called when this manager receives a
-     * {@link Gaia#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet.</p>
+     * {@link GAIA#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet.</p>
      * <p>If this manager is expecting some voice data, this method changes its state to
      * {@link AssistantEnums.IvorState#VOICE_ENDED VOICE_ENDED} and informs the listener that the device has ended
      * the voice streaming.</p>
      * <p>Otherwise it ignores the packet.</p>
      *
-     * @param packet The {@link Gaia#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet which had been
+     * @param packet The {@link GAIA#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet which had been
      * received.
      *
      * @return True if the packet was acknowledged by the method.
@@ -692,29 +641,30 @@ public class IvorManager {
             case AssistantEnums.IvorState.UNAVAILABLE:
             case AssistantEnums.IvorState.VOICE_REQUESTING:
             case AssistantEnums.IvorState.SESSION_STARTED:
-                createAcknowledgmentRequest(packet, Gaia.Status.INCORRECT_STATE, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.INCORRECT_STATE, null);
                 return true;
 
             case AssistantEnums.IvorState.VOICE_ENDED:
             case AssistantEnums.IvorState.VOICE_ENDING:
             case AssistantEnums.IvorState.VOICE_REQUESTED:
-                createAcknowledgmentRequest(packet, Gaia.Status.SUCCESS, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.SUCCESS, null);
                 setState(AssistantEnums.IvorState.VOICE_ENDED);
-                mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE, AssistantEnums.IvorMessage.VOICE_END, 0, null);
+                mListener.onVoiceEnded();
                 return true;
         }
-        
+
         return false;
     }
 
     /**
      * <p>This method is called when this manager receives a
-     * {@link Gaia#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet.</p>
+     * {@link GAIA#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet.</p>
      * <p>If this manager is currently in an assistant session, this method cancels the session and informs the
-     * <p>Otherwise it sends an {@link Gaia.Status#INCORRECT_STATE INCORRECT_STATE}
-     * or {@link Gaia.Status#NOT_SUPPORTED NOT_SUPPORTED} packet.</p>
+     * listener about the error through {@link IvorManagerListener#onIvorError(int) onIvorError()}.</p>
+     * <p>Otherwise it sends an {@link GAIA.Status#INCORRECT_STATE INCORRECT_STATE}
+     * or {@link GAIA.Status#NOT_SUPPORTED NOT_SUPPORTED} packet.</p>
      *
-     * @param packet The {@link Gaia#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet which had been
+     * @param packet The {@link GAIA#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet which had been
      * received.
      *
      * @return True if the packet had been acknowledged acknowledged by the method.
@@ -736,16 +686,15 @@ public class IvorManager {
             case AssistantEnums.IvorState.ANSWER_PLAYING:
             case AssistantEnums.IvorState.SESSION_STARTED:
                 setState(AssistantEnums.IvorState.CANCELLING);
-                createAcknowledgmentRequest(packet, Gaia.Status.SUCCESS, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.SUCCESS, null);
                 Log.w(TAG, "Device sends IVOR_CANCEL, cancelling the session, reason="
                         + AssistantEnums.getIvorErrorLabel(error));
-                mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                        AssistantEnums.IvorMessage.CANCEL_SESSION, 0, error).sendToTarget();
+                mListener.onIvorError(error);
                 setState(AssistantEnums.IvorState.IDLE);
                 return true;
 
             case AssistantEnums.IvorState.UNAVAILABLE:
-                createAcknowledgmentRequest(packet, Gaia.Status.NOT_SUPPORTED, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.NOT_SUPPORTED, null);
                 Log.w(TAG, "receiveIvorCancel(" + AssistantEnums.getIvorErrorLabel(error)
                         + "): Voice assistant is UNAVAILABLE.");
                 return true;
@@ -753,7 +702,7 @@ public class IvorManager {
 
             case AssistantEnums.IvorState.CANCELLING:
                 // already within the cancel process.
-                createAcknowledgmentRequest(packet, Gaia.Status.SUCCESS, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.SUCCESS, null);
                 Log.w(TAG, "receiveIvorCancel(" + AssistantEnums.getIvorErrorLabel(error)
                         + "): Voice assistant is already in CANCELLING state.");
                 return true;
@@ -761,7 +710,7 @@ public class IvorManager {
             case AssistantEnums.IvorState.ANSWER_ENDING:
             case AssistantEnums.IvorState.IDLE:
                 // cancel session requested while there is no more an ongoing session.
-                createAcknowledgmentRequest(packet, Gaia.Status.INCORRECT_STATE, null);
+                createAcknowledgmentRequest(packet, GAIA.Status.INCORRECT_STATE, null);
                 Log.w(TAG, "receiveIvorCancel: Incorrect state, state is " + AssistantEnums.getIvorStateLabel(mState));
                 return true;
         }
@@ -769,26 +718,11 @@ public class IvorManager {
         return false;
     }
 
-    /**
-     * <p>To create an acknowledgement GAIA request to send a packet over the listener.</p>
-     *
-     * @param packet
-     *            The packet to acknowledge over the listener.
-     */
-    protected void createAcknowledgmentRequest(GaiaPacket packet, Gaia.Status status, @Nullable byte[] data) {
-        Log.d(TAG, "Received request to send an acknowledgement packet for command: "
-                    + (packet.getCommand()) + " with status: "
-                    + (status));
-
-        mController.getGaiaLink().sendAcknowledgement(packet, status);
-    }
-
-
 
     // ====== PRIVATE METHODS - SENDING =============================================================
 
     /**
-     * <p>This method builds an {@link Gaia#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet and sends the packet to
+     * <p>This method builds an {@link GAIA#COMMAND_IVOR_CANCEL COMMAND_IVOR_CANCEL} packet and sends the packet to
      * the device.</p>
      *
      * @param error the reason of the cancel.
@@ -799,45 +733,44 @@ public class IvorManager {
         final int ERROR_OFFSET = 0;
         byte[] payload = new byte[PAYLOAD_LENGTH];
         payload[ERROR_OFFSET] = (byte) error;
-        mController.getGaiaLink().sendCommand(Gaia.VENDOR_CSR, Gaia.COMMAND_IVOR_CANCEL, payload);
-        startTimeOutRequestRunnable(Gaia.COMMAND_IVOR_CANCEL);
+        GaiaPacket packet = new GaiaPacketBREDR(GAIA.VENDOR_QUALCOMM, GAIA.COMMAND_IVOR_CANCEL, payload);
+        createRequest(packet);
     }
 
     /**
-     * <p>This method builds an {@link Gaia#COMMAND_IVOR_VOICE_DATA_REQUEST COMMAND_IVOR_VOICE_DATA_REQUEST} packet and
+     * <p>This method builds an {@link GAIA#COMMAND_IVOR_VOICE_DATA_REQUEST COMMAND_IVOR_VOICE_DATA_REQUEST} packet and
      * sends the packet to the device.</p>
      */
     private void sendIvorDataRequest() {
-        startTimeOutRequestRunnable(Gaia.COMMAND_IVOR_VOICE_DATA_REQUEST);
-        mController.getGaiaLink().sendCommand(Gaia.VENDOR_CSR, Gaia.COMMAND_IVOR_VOICE_DATA_REQUEST);
+        GaiaPacket packet = new GaiaPacketBREDR(GAIA.VENDOR_QUALCOMM, GAIA.COMMAND_IVOR_VOICE_DATA_REQUEST);
+        createRequest(packet);
     }
 
     /**
-     * <p>This method builds an {@link Gaia#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet and
+     * <p>This method builds an {@link GAIA#COMMAND_IVOR_VOICE_END COMMAND_IVOR_VOICE_END} packet and
      * sends the packet to the device.</p>
      */
     private void sendIvorVoiceEnd() {
-        mController.getGaiaLink().sendCommand(Gaia.VENDOR_CSR, Gaia.COMMAND_IVOR_VOICE_END);
-        startTimeOutRequestRunnable(Gaia.COMMAND_IVOR_VOICE_END);
-
+        GaiaPacket packet = new GaiaPacketBREDR(GAIA.VENDOR_QUALCOMM, GAIA.COMMAND_IVOR_VOICE_END);
+        createRequest(packet);
     }
 
     /**
-     * <p>This method builds an {@link Gaia#COMMAND_IVOR_ANSWER_START COMMAND_IVOR_ANSWER_START} packet and
+     * <p>This method builds an {@link GAIA#COMMAND_IVOR_ANSWER_START COMMAND_IVOR_ANSWER_START} packet and
      * sends the packet to the device.</p>
      */
     private void sendIvorAnswerStart() {
-        mController.getGaiaLink().sendCommand(Gaia.VENDOR_CSR, Gaia.COMMAND_IVOR_ANSWER_START);
-        startTimeOutRequestRunnable(Gaia.COMMAND_IVOR_ANSWER_START);
+        GaiaPacket packet = new GaiaPacketBREDR(GAIA.VENDOR_QUALCOMM, GAIA.COMMAND_IVOR_ANSWER_START);
+        createRequest(packet);
     }
 
     /**
-     * <p>This method builds an {@link Gaia#COMMAND_IVOR_ANSWER_END COMMAND_IVOR_ANSWER_END} packet and
+     * <p>This method builds an {@link GAIA#COMMAND_IVOR_ANSWER_END COMMAND_IVOR_ANSWER_END} packet and
      * sends the packet to the device.</p>
      */
     private void sendIvorAnswerEnd() {
-        mController.getGaiaLink().sendCommand(Gaia.VENDOR_CSR, Gaia.COMMAND_IVOR_ANSWER_END);
-        startTimeOutRequestRunnable(Gaia.COMMAND_IVOR_ANSWER_END);
+        GaiaPacket packet = new GaiaPacketBREDR(GAIA.VENDOR_QUALCOMM, GAIA.COMMAND_IVOR_ANSWER_END);
+        createRequest(packet);
     }
 
 
@@ -876,208 +809,65 @@ public class IvorManager {
         logState("setState: " + AssistantEnums.getIvorStateLabel(state));
         @AssistantEnums.IvorState int previous = mState;
         mState = state;
-        mListener.obtainMessage(AssistantEnums.ProviderMessage.IVOR_MESSAGE,
-                AssistantEnums.IvorMessage.STATE, 0, state).sendToTarget();
+        mListener.onIvorStateUpdated(state);
         return previous;
     }
 
-    public BluetoothDevice getBluetoothDevice() {
-        return mController.getBluetoothDevice();
-    }
 
-    public void connect(BluetoothDevice device) {
-        mController.establishGAIAConnection();
-    }
+    // ====== INTERFACES ===========================================================================
 
-    private class TimeOutRequestRunnable implements Runnable {
+    /**
+     * <p>This interface allows the IVOR manager to dispatch messages or events to a listener.</p>
+     */
+    public interface IvorManagerListener {
+
         /**
-         * <p>The request which is monitored for a time out.</p>
+         * <p>To send over a communication channel the bytes of a GAIA packet using the GAIA protocol.</p>
+         *
+         * @param packet
+         *         The byte array to send to a device.
+         *
+         * @return true if the sending could be done.
          */
-        private final int command;
+        boolean sendGAIAPacket(byte[] packet);
 
-        TimeOutRequestRunnable(int command) {
-            this.command = command;
-        }
+        /**
+         * <p>To start an assistant session after receiving a request from the device.</p>
+         * <p>Once the listener is ready to receive the incoming voice data it must call
+         * {@link #startVoiceStreaming() startVoiceStreaming()}.</p>
+         */
+        void startSession();
 
-        @Override
-        public void run() {
-            synchronized (mTimeOutRequestRunnableMap) {
-                Log.d(TAG, "A request is timed out for command: "+command);
+        /**
+         * <p>Once this manager gets some incoming voice data during an assistant it transmits it to its listener
+         * through this method for analysis of the data.</p>
+         * <p>When the listener does not want to receive more data it must call
+         * {@link #stopVoiceStreaming() stopVoiceStreaming()} to stop the device to send the data.</p>
+         *
+         * @param data the incoming voice data to be analysed by the voice assistant.
+         */
+        void receiveVoiceData(byte[] data);
 
-                if (!mTimeOutRequestRunnableMap.containsKey(command)) {
-                    // time out are only for ACK commands
-                    Log.w(TAG, "Unexpected runnable is running for command: "+command);
-                    return;
-                }
+        /**
+         * <p>This method is used by this manager when an error occurs or when the device cancels the assistant
+         * session.</p>
+         *
+         * @param code
+         *          The reason of the cancel.
+         */
+        void onIvorError(int code);
 
-                // runnable was expected to run
-                LinkedList<TimeOutRequestRunnable> list = mTimeOutRequestRunnableMap.get(command);
-                // remove the runnable from the list
-                list.remove(this);
-                // if there is no other runnable for that key we removed the entry from the Map
-                if (list.isEmpty()) {
-                    mTimeOutRequestRunnableMap.remove(command);
-                }
-            }
+        /**
+         * <p>This method is used by this IVOR manager when the device stops the streaming of the voice data.</p>
+         */
+        void onVoiceEnded();
 
-            Log.w(TAG, "No ACK packet for command: ");
-            hasNotReceivedAcknowledgementPacket(command);
-        }
+        /**
+         * <p>To inform the listener that the IVOR state of this manager has changed.</p>
+         *
+         * @param state
+         *          The new state of this manager.
+         */
+        void onIvorStateUpdated(@AssistantEnums.IvorState int state);
     }
-
-    /**
-     * <p>To start a Runnable which will be thrown after the known time out request delay set up with
-     * {@link #(int) setRequestTimeOut}. This Runnable deals with GAIA requests that didn't
-     * receive any acknowledgement for their sent packet.</p>
-     *
-     */
-    private void startTimeOutRequestRunnable(int command) {
-        Log.d(TAG, "Set up TimeOutRequestRunnable for type request: for command "+ (command));
-
-        TimeOutRequestRunnable runnable = new TimeOutRequestRunnable(command);
-        int key = command;
-        if (mTimeOutRequestRunnableMap.containsKey(key)) {
-            mTimeOutRequestRunnableMap.get(key).add(runnable);
-        }
-        else {
-            LinkedList<TimeOutRequestRunnable> list = new LinkedList<>();
-            list.add(runnable);
-            mTimeOutRequestRunnableMap.put(command, list);
-        }
-        mHandler.postDelayed(runnable, 30000);
-    }
-
-
-
-    /**
-     * <p>To cancel the TimeOutRequestRunnable if there is one running.</p>
-     * <p>This method will check if the given key corresponds to any running Runnable, if it does it will stop the
-     * Runnable and then removed it from the Map.</p>
-     * <p>The key corresponds to the GAIA command of the request which corresponds to the Runnable.</p>
-     * @param key
-     *          The key of the TimeOutRequestRunnable in the Map.
-     */
-    private boolean cancelTimeOutRequestRunnable(int key) {
-        synchronized (mTimeOutRequestRunnableMap) {
-                Log.d(TAG, "Request to cancel a TimeOutRequestRunnable for command: " +(key));
-            }
-
-        if (!mTimeOutRequestRunnableMap.containsKey(key)) {
-            // time out request runnable not found
-            Log.w(TAG, "No pending TimeOutRequestRunnable matches command: " + (key));
-            return false;
-        }
-
-        // expected command
-        List<TimeOutRequestRunnable> list = mTimeOutRequestRunnableMap.get(key);
-        // get the first runnable corresponding to the given key - which should be the oldest one
-        TimeOutRequestRunnable runnable = list.remove(0);
-        // stop the runnable
-        mHandler.removeCallbacks(runnable);
-        // if there is no other runnable for that key we removed the entry from the Map
-        if (list.isEmpty()) {
-            mTimeOutRequestRunnableMap.remove(key);
-        }
-        return true;
-
-    }
-
-    /**
-     * <p>To reset the list of time out request runnable to an empty state.</p>
-     */
-    private synchronized void resetTimeOutRequestRunnableMap() {
-        Log.d(TAG, "Received request to reset the TimeOutRequestRunnable Map");
-        for (int i = 0; i< mTimeOutRequestRunnableMap.size(); i++) {
-            for (TimeOutRequestRunnable runnable : mTimeOutRequestRunnableMap.valueAt(i)) {
-                mHandler.removeCallbacks(runnable);
-            }
-        }
-        mTimeOutRequestRunnableMap.clear();
-    }
-    private Callback mCallback = new SimpleCallback() {
-        @Override
-        public void handleNotification(GaiaPacket packet) {
-            super.handleNotification(packet);
-        }
-
-        @Override
-        public void onConnected() {
-            setConnectionState(AssistantEnums.ConnectionState.CONNECTED);
-
-        }
-
-        @Override
-        public void onDisconnected() {
-            setConnectionState(AssistantEnums.ConnectionState.DISCONNECTED);
-        }
-
-        @Override
-        public void onGetAppVersion(String version) {
-            super.onGetAppVersion(version);
-        }
-
-        @Override
-        public void onGetUUID(String uuid) {
-            super.onGetUUID(uuid);
-        }
-
-        @Override
-        public void onGetSerialNumber(String sn) {
-            super.onGetSerialNumber(sn);
-        }
-
-        @Override
-        public void onError(GaiaError error) {
-            super.onError(error);
-        }
-
-        @Override
-        public void onGetBatteryLevel(int level) {
-            super.onGetBatteryLevel(level);
-        }
-
-        @Override
-        public void onGetRSSILevel(int level) {
-            super.onGetRSSILevel(level);
-        }
-
-        @Override
-        public void onSetVoiceAssistantConfig(boolean config) {
-            super.onSetVoiceAssistantConfig(config);
-        }
-
-        @Override
-        public void onSetSensoryConfig(boolean config) {
-            super.onSetSensoryConfig(config);
-        }
-
-        @Override
-        public void onPacketCommandNotSupport(GaiaPacket packet) {
-            super.onPacketCommandNotSupport(packet);
-        }
-
-        @Override
-        public void handlePacket(GaiaPacket packet) {
-            if (packet.isAcknowledgement()) {
-                if (!cancelTimeOutRequestRunnable(packet.getCommand())) {
-                    Log.w(TAG, "Received unexpected acknowledgement packet for command " +(packet.getCommand()));
-                    return;
-                }
-
-                // acknowledgement was expected: it is dispatched to the child
-                Gaia.Status status = packet.getStatus();
-                Log.d(TAG, "Received GAIA ACK packet for command "
-                        + (packet.getCommand()) + " with status: " + (status));
-
-                if (status == Gaia.Status.SUCCESS) {
-                    receiveSuccessfulAcknowledgement(packet);
-                } else {
-                    receiveUnsuccessfulAcknowledgement(packet);
-                }
-            } else {
-                manageReceivedPacket(packet);
-            }
-        }
-    };
-
 }

@@ -11,7 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.qualcomm.qti.libraries.assistant.ivor.IvorManager;
+import com.qualcomm.qti.libraries.assistant.bluetooth.GaiaBREDRProvider;
 
 import java.lang.ref.WeakReference;
 
@@ -32,7 +32,7 @@ import java.lang.ref.WeakReference;
  * <p>When the assistant feature is not required anymore, call {@link #close()} in order to release all resources
  * used by this manager.</p>
  */
-public class AssistantManager  {
+public class AssistantManager {
 
     // ====== CONSTANTS FIELDS ===============================================================================
 
@@ -69,7 +69,7 @@ public class AssistantManager  {
      * The Provider of a BR/EDR connection with a BluetoothDevice able to detect GAIA/IVOR packets and to manage
      * these packets.
      */
-    private IvorManager mIvorManager;
+    private GaiaBREDRProvider mGaiaBREDRProvider;
     /**
      * <p>The assistant which provides the core of the assistant feature by being able to analyse and answer to a
      * user voice request.</p>
@@ -114,7 +114,7 @@ public class AssistantManager  {
                     Log.w(TAG, "Session cancelled: no more data received from device, received="
                             + mReceivedPackets + " time=" + (System.currentTimeMillis() - mRequestTime));
                     if (mAssistant != null) mAssistant.forceReset();
-                    mIvorManager.cancelSession(AssistantEnums.IvorError.UNEXPECTED_ERROR);
+                    mGaiaBREDRProvider.cancelIvorSession(AssistantEnums.IvorError.UNEXPECTED_ERROR);
                     mListener.onDeviceError(AssistantEnums.DeviceError.DATA_STREAM_STOPPED, mReceivedPackets);
                 }
                 else {
@@ -164,7 +164,7 @@ public class AssistantManager  {
     private final Assistant.AssistantListener mAssistantListener = new Assistant.AssistantListener() {
         @Override // Assistant.AssistantListener
         public void startStreaming() {
-            if (mIvorManager.startVoiceStreaming()) {
+            if (mGaiaBREDRProvider.startVoiceStreaming()) {
                 mReceivedPackets = 0;
                 mReceivedPacketsChecked = 0;
                 mRequestTime = System.currentTimeMillis();
@@ -182,23 +182,23 @@ public class AssistantManager  {
         public void stopStreaming() {
             Log.i(TAG, "Assistant stopped the voice streaming, received=" + mReceivedPackets + " time="
                     + (System.currentTimeMillis() - mRequestTime));
-            mIvorManager.stopVoiceStreaming();
+            mGaiaBREDRProvider.stopVoiceStreaming();
         }
 
         @Override // Assistant.AssistantListener
         public void onStartPlayingResponse() {
-            mIvorManager.onStartPlayingAnswer();
+            mGaiaBREDRProvider.onStartPlayingAnswer();
         }
 
         @Override // Assistant.AssistantListener
         public void onFinishPlayingResponse() {
-            mIvorManager.onFinishPlayingAnswer();
+            mGaiaBREDRProvider.onFinishPlayingAnswer();
         }
 
         @Override // Assistant.AssistantListener
         public void onError(int error, @AssistantEnums.IvorError int ivorError) {
             mListener.onAssistantError(error);
-            mIvorManager.cancelSession(ivorError);
+            mGaiaBREDRProvider.cancelIvorSession(ivorError);
         }
 
         @Override // Assistant.AssistantListener
@@ -236,14 +236,14 @@ public class AssistantManager  {
      *          The context of the application to initialise the objects for the Bluetooth connection.
      */
     public void init(Context context) {
-        if (mIvorManager != null) {
+        if (mGaiaBREDRProvider != null) {
             Log.w(TAG, "init: AssistantManager already initialised");
             return;
         }
 
         ProviderHandler handler = new ProviderHandler(this);
         BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
-        mIvorManager = new IvorManager(handler);
+        mGaiaBREDRProvider = new GaiaBREDRProvider(handler, bluetoothManager);
     }
 
     /**
@@ -273,7 +273,7 @@ public class AssistantManager  {
      */
     public void forceReset() {
         if (mAssistant != null) mAssistant.forceReset();
-        mIvorManager.forceReset();
+        mGaiaBREDRProvider.forceReset();
     }
 
     /**
@@ -300,7 +300,7 @@ public class AssistantManager  {
      * @return the BluetoothDevice.
      */
     public BluetoothDevice getDevice() {
-        return mIvorManager.getBluetoothDevice();
+        return mGaiaBREDRProvider.getDevice();
     }
 
     /**
@@ -323,12 +323,12 @@ public class AssistantManager  {
             return false;
         }
 
-        if (mIvorManager.getState() != AssistantEnums.IvorState.UNAVAILABLE
-                || mIvorManager.getState() != AssistantEnums.IvorState.IDLE) {
-            mIvorManager.cancelSession(AssistantEnums.IvorError.UNAVAILABLE);
+        if (mGaiaBREDRProvider.getIvorState() != AssistantEnums.IvorState.UNAVAILABLE
+                || mGaiaBREDRProvider.getIvorState() != AssistantEnums.IvorState.IDLE) {
+            mGaiaBREDRProvider.cancelIvorSession(AssistantEnums.IvorError.UNAVAILABLE);
         }
 
-        return mIvorManager.disconnect();
+        return mGaiaBREDRProvider.disconnect();
     }
 
     /**
@@ -357,14 +357,22 @@ public class AssistantManager  {
             return false;
         }
 
-        if (mIvorManager.getConnectionState() == AssistantEnums.ConnectionState.CONNECTED
-                && mIvorManager.getBluetoothDevice().equals(device)) {
+        if (mGaiaBREDRProvider.getState() == AssistantEnums.ConnectionState.CONNECTED
+                && mGaiaBREDRProvider.getDevice().equals(device)) {
             Log.w(TAG, "Connection failed: the device is already connected.");
             return false;
         }
-        Log.d(TAG, "connect: ");
-        mIvorManager.connect(device);
-        return true;
+        else if (mGaiaBREDRProvider.getState() == AssistantEnums.ConnectionState.CONNECTED) {
+            mDeviceToConnect = device;
+            if (!mGaiaBREDRProvider.disconnect()) {
+                mDeviceToConnect = null;
+                return mGaiaBREDRProvider.connect(device);
+            }
+            // else: wait for mProviderHandler to get a message
+            return true;
+        }
+
+        return mGaiaBREDRProvider.connect(device);
     }
 
     /**
@@ -373,7 +381,7 @@ public class AssistantManager  {
      * @return the current IVOR state.
      */
     public @AssistantEnums.IvorState int getIvorState() {
-        return mIvorManager.getState();
+        return mGaiaBREDRProvider.getIvorState();
     }
 
     /**
@@ -382,7 +390,7 @@ public class AssistantManager  {
      * @return the current connection state.
      */
     public @AssistantEnums.ConnectionState int getConnectionState() {
-        return mIvorManager.getState();
+        return mGaiaBREDRProvider.getState();
     }
 
     /**
@@ -393,7 +401,7 @@ public class AssistantManager  {
      */
     public void cancelSession(@AssistantEnums.IvorError int error) {
         if (mAssistant != null) mAssistant.cancelSession();
-        mIvorManager.cancelSession(error);
+        mGaiaBREDRProvider.cancelIvorSession(error);
     }
 
 
@@ -448,6 +456,7 @@ public class AssistantManager  {
 
     /**
      * <p>This method is called when the {@link ProviderHandler ProviderHandler} receives a message from the
+     * {@link GaiaBREDRProvider GaiaBREDRProvider}.</p>
      * <p>This method will act dependently of the received message.</p>
      *
      * @param msg
@@ -510,7 +519,7 @@ public class AssistantManager  {
 
         // device disconnected in order to connect with another one
         if (receivedState == AssistantEnums.ConnectionState.DISCONNECTED && mDeviceToConnect != null) {
-            mIvorManager.connect(mDeviceToConnect);
+            mGaiaBREDRProvider.connect(mDeviceToConnect);
         }
 
         if (mAssistant != null && receivedState == AssistantEnums.ConnectionState.DISCONNECTED) {
@@ -521,6 +530,7 @@ public class AssistantManager  {
     /**
      * <p>This method is called when this manager handles a
      * {@link com.qualcomm.qti.libraries.assistant.AssistantEnums.ProviderMessage#IVOR_MESSAGE IVOR_MESSAGE} from the
+     * {@link GaiaBREDRProvider GaiaBREDRProvider}.</p>
      * <p>This method will act dependently of the received message.</p>
      *
      * @param message
@@ -537,7 +547,7 @@ public class AssistantManager  {
             case AssistantEnums.IvorMessage.START_SESSION:
                 if (DEBUG_LOGS) Log.i(TAG, handleMessage + "START_SESSION");
                 if (!onReceivedStartVoiceSession()) {
-                    mIvorManager.cancelSession(AssistantEnums.IvorError.INCORRECT_STATE);
+                    mGaiaBREDRProvider.cancelIvorSession(AssistantEnums.IvorError.INCORRECT_STATE);
                 }
                 break;
 
@@ -653,8 +663,8 @@ public class AssistantManager  {
      */
     private boolean isFeatureDisabled() {
         return !mListener.isAssistantFeatureAvailable() || mAssistant == null
-                || mIvorManager.getConnectionState() != AssistantEnums.ConnectionState.CONNECTED
-                || mIvorManager.getState() == AssistantEnums.IvorState.UNAVAILABLE;
+                || mGaiaBREDRProvider.getState() != AssistantEnums.ConnectionState.CONNECTED
+                || mGaiaBREDRProvider.getIvorState() == AssistantEnums.IvorState.UNAVAILABLE;
     }
 
     /**
@@ -673,6 +683,7 @@ public class AssistantManager  {
     // ====== INNER CLASSES ===============================================================================
 
     /**
+     * <p>This class allows to receive and manage messages from a {@link GaiaBREDRProvider GaiaBREDRProvider}.</p>
      */
     private static class ProviderHandler extends Handler {
 

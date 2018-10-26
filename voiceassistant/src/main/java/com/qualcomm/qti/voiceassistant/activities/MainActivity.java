@@ -449,7 +449,7 @@ public class MainActivity extends ServiceActivity implements StatusFragment.Stat
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(navigationListener);
 
-        mStatusFragment = StatusFragment.newInstance();
+        mStatusFragment = new StatusFragment();
         mEventsFragment = EventsFragment.newInstance();
         mScrollView = findViewById(R.id.scroll_view);
 

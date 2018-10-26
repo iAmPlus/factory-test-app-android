@@ -651,6 +651,33 @@ public final class GaiaUtils {
             case GAIA.COMMAND_EVENT_NOTIFICATION:
                 name = "COMMAND_EVENT_NOTIFICATION";
                 break;
+            case GAIA.COMMAND_IVOR_ANSWER_END:
+                name = "COMMAND_IVOR_ANSWER_END";
+                break;
+            case GAIA.COMMAND_IVOR_ANSWER_START:
+                name = "COMMAND_IVOR_ANSWER_START";
+                break;
+            case GAIA.COMMAND_IVOR_CANCEL:
+                name = "COMMAND_IVOR_CANCEL";
+                break;
+            case GAIA.COMMAND_IVOR_CHECK_VERSION:
+                name = "COMMAND_IVOR_CHECK_VERSION";
+                break;
+            case GAIA.COMMAND_IVOR_PING:
+                name = "COMMAND_IVOR_PING";
+                break;
+            case GAIA.COMMAND_IVOR_START:
+                name = "COMMAND_IVOR_START";
+                break;
+            case GAIA.COMMAND_IVOR_VOICE_DATA:
+                name = "COMMAND_IVOR_VOICE_DATA";
+                break;
+            case GAIA.COMMAND_IVOR_VOICE_DATA_REQUEST:
+                name = "COMMAND_IVOR_VOICE_DATA_REQUEST";
+                break;
+            case GAIA.COMMAND_IVOR_VOICE_END:
+                name = "COMMAND_IVOR_VOICE_END";
+                break;
         }
 
         return getHexadecimalStringFromInt(command) + " " + name;

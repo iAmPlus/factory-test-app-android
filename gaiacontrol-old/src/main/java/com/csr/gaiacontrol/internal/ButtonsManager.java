@@ -176,6 +176,7 @@ public class ButtonsManager {
      */
     @SuppressWarnings("SameParameterValue")
     void sendGaiaIamplusPacket(int command, byte... payload) {
+        Log.d(TAG, "sendGaiaIamplusPacket: ");
         mGaiaLink.sendCommand(Gaia.VENDOR_IAMPLUS, command, payload);
     }
 
@@ -767,6 +768,7 @@ public class ButtonsManager {
 
         @Override
         public void handleMessage(Message msg) {
+            Log.d(TAG, "handleMessage: ");
             String handleMessage = "Handle a message from Gaia: ";
             GaiaLink.Message message = GaiaLink.Message.valueOf(msg.what);
             if (message == null) {

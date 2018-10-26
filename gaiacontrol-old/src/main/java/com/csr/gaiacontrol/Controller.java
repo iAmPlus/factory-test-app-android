@@ -98,6 +98,7 @@ public class Controller {
      */
     public void getSerialNumber() {
         if (isGAIAConnected()) {
+            Log.d(TAG, "getSerialNumber: askForSerialNumber");
             mButtonsManager.askForSerialNumber();
         }
     }
