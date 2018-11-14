@@ -98,7 +98,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
      */
     public void init(Context context) {
         mContext = context;
-        Log.d("abhay", "init: ");
         mHandler = new ActivityHandler(this);
 
         if(mService != null) {
@@ -121,7 +120,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
 
     @Override // Fragment
     public void onResume() {
-        Log.d("abhay", "onResume: ");
         super.onResume();
         mIsPaused = false;
         if(mService != null) {
@@ -136,7 +134,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("abhay", "onPause: ");
         mIsPaused = true;
     }
 
@@ -154,7 +151,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
 
         View buttonReset = view.findViewById(R.id.bt_reset);
         buttonReset.setOnClickListener(this);
-        Log.d("abhay", "onCreateView: ");
         return view;
     }
 
@@ -306,9 +302,11 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
                 break;
         }
 
-        mAssistantCard.displayInformation(true);
-        //noinspection ConstantConditions
-        mAssistantCard.refreshCard(getString(name), getString(information), drawable, tint);
+        if(mAssistantCard!=null) {
+            mAssistantCard.displayInformation(true);
+            //noinspection ConstantConditions
+            mAssistantCard.refreshCard(getString(name), getString(information), drawable, tint);
+        }
     }
 
     /**
@@ -420,8 +418,11 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
 
     @Override
     public void onClick(View view) {
-        Log.d("abhay", "onClick: ");
         forceReset();
+    }
+
+    public void voiceEnd() {
+        if(mService != null) mService.voiceEnd();
     }
 
 
@@ -446,7 +447,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
                 mService = ((VoiceAssistantService.LocalBinder) service).getService();
                 mService.addHandler(mHandler);
                 mService.init();
-                Log.d("abhay", "onServiceConnected: ");
                 onVAServiceConnected(); // to inform subclass
             }
         }
@@ -461,8 +461,6 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
     }
 
     private void bindService() {
-        Log.d("abhay", "bindService: ");
-        displayEventOnUI("abhay");
         // bind the service
         Intent gattServiceIntent = new Intent(mContext, VoiceAssistantService.class);
         mContext.bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -832,7 +830,7 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
     }
 
     private void displayEventOnUI(String event) {
-        Toast.makeText(mContext, event, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, event, Toast.LENGTH_SHORT).show();
     }
 
     public interface StatusFragmentListener {

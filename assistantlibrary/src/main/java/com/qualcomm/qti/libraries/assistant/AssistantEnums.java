@@ -358,6 +358,9 @@ public class AssistantEnums {
          * {@link IvorState IvorState}.</p>
          */
         int STATE = 4;
+
+        int USER_VOICE_END = 5;
+
     }
 
 

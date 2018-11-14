@@ -146,6 +146,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
                         mVATestToggle.setChecked(true);
                     } else if(Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER2)) {
                         mOmegaTestToggle.setChecked(false);
+                        mStatusFragment.voiceEnd();
                     }
                     break;
 

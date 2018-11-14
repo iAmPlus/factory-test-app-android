@@ -246,6 +246,11 @@ public class GaiaBREDRProvider implements IvorManager.IvorManagerListener, GaiaL
         sendMessageToListener(AssistantEnums.ProviderMessage.IVOR_MESSAGE, AssistantEnums.IvorMessage.STATE, state);
     }
 
+    @Override
+    public void onUserVoiceEnd() {
+        sendMessageToListener(AssistantEnums.ProviderMessage.IVOR_MESSAGE, AssistantEnums.IvorMessage.USER_VOICE_END, null);
+    }
+
 
     // ====== PRIVATE METHODS =========================================================================
 
@@ -259,7 +264,7 @@ public class GaiaBREDRProvider implements IvorManager.IvorManagerListener, GaiaL
      */
     private void onGaiaPacketFound(byte[] data) {
         if (DEBUG_LOGS) {
-            Log.d(TAG, "Receive potential GAIA packet: " + AssistantUtils.getStringFromBytes(data));
+            Log.d(TAG, "Receive potential GAIA packet: ");
         }
         mIvorManager.onReceiveGAIAPacket(data);
     }

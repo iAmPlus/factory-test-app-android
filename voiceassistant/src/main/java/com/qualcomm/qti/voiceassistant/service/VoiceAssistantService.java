@@ -127,6 +127,10 @@ public class VoiceAssistantService extends Service implements CallReceiver.CallL
         }
     };
 
+    public void voiceEnd() {
+        mAssistantManager.onReceivedEndUser();
+    }
+
 
     // ====== ENUM =================================================================================
 

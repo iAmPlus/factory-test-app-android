@@ -212,7 +212,7 @@ public abstract class GaiaManager {
      */
     public void onReceiveGAIAPacket(byte[] data) {
         if (mShowDebugLogs) {
-            Log.d(TAG, "Received potential GAIA packet: " + GaiaUtils.getHexadecimalStringFromBytes(data));
+            Log.d(TAG, "Received potential GAIA packet: ");
         }
 
         GaiaPacket packet;

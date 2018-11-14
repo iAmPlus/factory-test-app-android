@@ -35,7 +35,7 @@ public class LoopbackAssistant implements Assistant, LoopbackPlayer.LoopbackPlay
     /**
      * The time out to stop the data streaming.
      */
-    private static final int STOP_STREAMING_DELAY_MS = 5000;
+    private static final int STOP_STREAMING_DELAY_MS = 8000;
     /**
      * The current state of this assistant.
      */

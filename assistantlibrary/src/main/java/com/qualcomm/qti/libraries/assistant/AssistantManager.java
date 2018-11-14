@@ -568,6 +568,11 @@ public class AssistantManager {
                 onReceivedEndData();
                 break;
 
+            case AssistantEnums.IvorMessage.USER_VOICE_END:
+                if (DEBUG_LOGS) Log.i(TAG, handleMessage + "USER_VOICE_END");
+                onReceivedEndUser();
+                break;
+
             case AssistantEnums.IvorMessage.STATE:
                 @AssistantEnums.IvorState int ivorState = (int) object;
                 if (DEBUG_LOGS) Log.i(TAG, handleMessage + "STATE : state=" + ivorState);
@@ -650,6 +655,11 @@ public class AssistantManager {
      * calling {@link Assistant#endDataStream()}.</p>
      */
     private void onReceivedEndData() {
+        mAssistant.endDataStream();
+    }
+
+    public void onReceivedEndUser() {
+        mGaiaBREDRProvider.stopVoiceStreaming();
         mAssistant.endDataStream();
     }
 

@@ -7,6 +7,7 @@ package com.qualcomm.qti.libraries.assistant.ivor;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.csr.gaiacontrol.Events;
 import com.qualcomm.qti.libraries.assistant.AssistantConsts;
 import com.qualcomm.qti.libraries.assistant.AssistantEnums;
 import com.qualcomm.qti.libraries.gaia.GAIA;
@@ -15,6 +16,8 @@ import com.qualcomm.qti.libraries.gaia.packets.GaiaPacket;
 import com.qualcomm.qti.libraries.gaia.packets.GaiaPacketBREDR;
 
 import java.util.Arrays;
+
+import static com.qualcomm.qti.libraries.gaia.GAIA.NotificationEvents.USER_ACTION;
 
 /**
  * <p>This class follows the GAIA protocol. It manages all IVOR messages which are sent and received over the protocol
@@ -318,8 +321,27 @@ public class IvorManager extends GaiaManager {
 
             case GAIA.COMMAND_IVOR_VOICE_END:
                 return receiveVoiceEnd(packet);
+
+            case GAIA.COMMAND_EVENT_NOTIFICATION:
+                return receiveEventNotification(packet);
         }
 
+        return false;
+    }
+
+    private boolean receiveEventNotification(GaiaPacket packet) {
+        int event = packet.getEvent();
+        Log.d(TAG, "handleNotification: " + Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase());
+        switch (event) {
+            case USER_ACTION:
+                if(Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER2)) {
+                    mListener.onUserVoiceEnd();
+                    return true;
+                }
+                break;
+            default:
+                return false;
+        }
         return false;
     }
 
@@ -719,6 +741,7 @@ public class IvorManager extends GaiaManager {
     }
 
 
+
     // ====== PRIVATE METHODS - SENDING =============================================================
 
     /**
@@ -869,5 +892,7 @@ public class IvorManager extends GaiaManager {
          *          The new state of this manager.
          */
         void onIvorStateUpdated(@AssistantEnums.IvorState int state);
+
+        void onUserVoiceEnd();
     }
 }
