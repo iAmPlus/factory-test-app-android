@@ -7,7 +7,11 @@ import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.android.exoplayer2.upstream.RawResourceDataSource;
+
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Utils {
@@ -51,4 +55,28 @@ public class Utils {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         nm.cancelAll();
     }
+
+    private final static int RES_IDS[] = { R.raw.buddy, R.raw.tenderness, R.raw.energy};
+    private final static String RES_NAMES[] = { "buddy", "tenderness", "energy"};
+
+    public static List<MusicController.TrackInfo> getTracks() {
+        List<MusicController.TrackInfo> tracks = new ArrayList<>();
+        for(int count = 0; count < RES_IDS.length; count++ ) {
+            MusicController.TrackInfo track = new MusicController.TrackInfo();
+            tracks.add(getTrack(count, track));
+        }
+        return tracks;
+    }
+
+    private static MusicController.TrackInfo getTrack(int position, MusicController.TrackInfo track){
+        track.id = String.valueOf(position);
+        track.title = (RES_NAMES[position]);
+        track.url = makeUrl(position);
+        return track;
+    }
+
+    private static String makeUrl(int index) {
+        return RawResourceDataSource.buildRawResourceUri(RES_IDS[index]).toString();
+    }
+
 }

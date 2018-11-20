@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.iamplus.buttonsfactorytest.MusicController;
 import com.qualcomm.qti.libraries.assistant.bluetooth.GaiaBREDRProvider;
 
 import java.lang.ref.WeakReference;
@@ -687,6 +688,10 @@ public class AssistantManager {
      */
     private byte[] decode(byte[] data) {
         return decode(mSBCHandle, data);
+    }
+
+    public void setMusicController(MusicController musicController) {
+        mAssistant.setMusicController(musicController);
     }
 
 

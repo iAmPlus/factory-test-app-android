@@ -8,11 +8,17 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
+
+import com.iamplus.buttonsfactorytest.MusicController;
+import com.iamplus.buttonsfactorytest.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +27,7 @@ import java.util.List;
  * <p>When an instance of this class is not in use anymore, prior to release it, call {@link #release()} in order to
  * release all attached resources.</p>
  */
-/*package*/ class LoopbackPlayer {
+/*package*/ class LoopbackPlayer implements MusicController.MusicListener {
 
     // ====== PRIVATE FIELDS =================================================================================
     /**
@@ -32,7 +38,7 @@ import java.util.List;
     /**
      * The MediaPLayer uses to play some audio.
      */
-    private final MediaPlayer mPlayer;
+    //private final MediaPlayer mPlayer;
     /**
      * The WAVE file to play.
      */
@@ -50,6 +56,7 @@ import java.util.List;
      * <p>The listener to be informed when the {@link MediaPlayer} is prepared after calling
      * {@link MediaPlayer#prepareAsync()}.</p>
      */
+/*
     @SuppressWarnings("FieldCanBeLocal")
     private final MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
@@ -57,10 +64,12 @@ import java.util.List;
             mPlayer.start();
         }
     };
+*/
 
     /**
      * <p>The listener to be informed when an error occurs with the {@link MediaPlayer}.</p>
      */
+/*
     @SuppressWarnings("FieldCanBeLocal")
     private final MediaPlayer.OnErrorListener mErrorListener = new MediaPlayer.OnErrorListener() {
         @Override
@@ -75,10 +84,12 @@ import java.util.List;
             return false;
         }
     };
+*/
 
     /**
      * <p>The listener to be informed when the {@link MediaPlayer} has finished to play the given file.</p>
      */
+/*
     @SuppressWarnings("FieldCanBeLocal")
     private final MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -93,6 +104,9 @@ import java.util.List;
             mPlayer.reset();
         }
     };
+*/
+    private MusicController mMusicController;
+    private boolean mIsPlayStarted = false;
 
 
     // ====== CONSTRUCTOR =================================================================================
@@ -107,6 +121,7 @@ import java.util.List;
      * </ul></p>
      */
     LoopbackPlayer(LoopbackPlayerListener listener) {
+/*
         mPlayer = new MediaPlayer();
         // create media player
         mPlayer.setOnPreparedListener(mPreparedListener);
@@ -117,6 +132,7 @@ import java.util.List;
         attributes.setLegacyStreamType(AudioManager.STREAM_MUSIC);
         attributes.setUsage(AudioAttributes.USAGE_MEDIA);
         mPlayer.setAudioAttributes(attributes.build());
+*/
         this.mListener = listener;
     }
 
@@ -127,7 +143,9 @@ import java.util.List;
      * <p>To release the resources used within this class.</p>
      */
     /*package*/ void release() {
-        mPlayer.release();
+        if(mMusicController != null)
+            mMusicController.pause();
+        //mPlayer.release();
         if (mFile != null) {
             //noinspection ResultOfMethodCallIgnored
             mFile.delete();
@@ -138,9 +156,13 @@ import java.util.List;
      * <p>To stop the played audio.</p>
      */
     /*package*/ void stop() {
-        if (mPlayer.isPlaying()) {
+        /*if (mPlayer.isPlaying()) {
             mPlayer.stop();
-        }
+        }*/
+        Log.d(TAG, "stop: ");
+        mMusicController.playTracks(Utils.getTracks());
+        mIsPlayStarted = false;
+        mMusicController.pause();
     }
 
     /**
@@ -158,16 +180,34 @@ import java.util.List;
     /*package*/ void play(List<byte[]> data, int size, Context context) {
         // using the media player
         try {
-            mFile = createWaveFile(data, size, context);
+            //mFile = createWaveFile(data, size, context);
+
+            if(mFile != null) {
+                mFile.delete();
+            }
+            mMusicController.playTracks(getTracks(createWaveFile(data, size, context)));
+            mIsPlayStarted = false;/*
             mPlayer.reset();
             FileInputStream fis = new FileInputStream(mFile);
             mPlayer.setDataSource(fis.getFD());
-            mPlayer.prepareAsync(); // to not block the main thread
+            mPlayer.prepareAsync(); */// to not block the main thread
         }
         catch (IOException e) {
             e.printStackTrace();
             mListener.onError();
         }
+    }
+    private List<MusicController.TrackInfo> getTracks(File waveFile){
+        List<MusicController.TrackInfo> tracks = new ArrayList<>();
+
+        MusicController.TrackInfo track = new MusicController.TrackInfo();
+
+        Log.d(TAG, "getTracks: "+waveFile.getAbsolutePath());
+        track.id = String.valueOf(5);
+        track.title = "user_voice";
+        track.url = String.valueOf(waveFile.getAbsolutePath());
+        tracks.add(track);
+        return tracks;
     }
 
 
@@ -190,9 +230,40 @@ import java.util.List;
      */
     private File createWaveFile(List<byte[]> data, int size, Context context) throws IOException {
         // create a temporary file
-        File file = File.createTempFile("audio", "wav", context.getCacheDir());
-        WaveFormat.buildWaveFile(data, size, file);
-        return file;
+        mFile = File.createTempFile("audio", ".wav", context.getCacheDir());
+        WaveFormat.buildWaveFile(data, size, mFile);
+        return mFile;
+    }
+
+    public void setmusicController(MusicController musicController) {
+        mMusicController = musicController;
+        musicController.addListener(this);
+    }
+
+    @Override
+    public void onPlaybackStarted() {
+        mIsPlayStarted = true;
+        Log.d(TAG, "onPlaybackStarted: ");
+    }
+
+    @Override
+    public void onPaused() {
+    }
+
+    @Override
+    public void onStop() {
+    }
+
+    @Override
+    public void onTrackChanged() {
+        if(mIsPlayStarted) {
+            mListener.onFinishedPlaying();
+        }
+    }
+
+    @Override
+    public void onError() {
+        mListener.onError();
     }
 
 

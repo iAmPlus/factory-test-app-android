@@ -84,7 +84,7 @@ public class ButtonsMediaTest extends Fragment implements View.OnClickListener, 
         mMusicController = musicController;
         mMusicController.addListener(this);
         mExoPlayer = mMusicController.getMusicPlayer();
-        mMusicController.playTracks(getTracks());
+        mMusicController.playTracks(Utils.getTracks());
     }
 
     @Override
@@ -112,22 +112,6 @@ public class ButtonsMediaTest extends Fragment implements View.OnClickListener, 
     @Override
     public void onError() {
         Log.d(TAG, "onError: ");
-    }
-
-    private List<MusicController.TrackInfo> getTracks() {
-        List<MusicController.TrackInfo> tracks = new ArrayList<>();
-        for(int count = 0; count < RES_IDS.length; count++ ) {
-            MusicController.TrackInfo track = new MusicController.TrackInfo();
-            tracks.add(getTrack(count, track));
-        }
-        return tracks;
-    }
-
-    private MusicController.TrackInfo getTrack(int position, MusicController.TrackInfo track){
-        track.id = String.valueOf(position);
-        track.title = getResources().getResourceEntryName(RES_IDS[position]);
-        track.url = makeUrl(position);
-        return track;
     }
 
     private void upDateSongInfo(int currentWindowIndex) {

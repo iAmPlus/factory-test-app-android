@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
+import com.google.android.exoplayer2.upstream.FileDataSource;
 import com.google.android.exoplayer2.upstream.RawResourceDataSource;
 
 import java.io.IOException;
@@ -323,16 +324,16 @@ public class ExoMusicPlayer implements MusicController, Player.EventListener,
     private void createMediaSources() {
         log("createMediaSources");
         MediaSource[] mediaSources = new MediaSource[mPlayList.size()];
-        for (int i = 0; i < mPlayList.size(); i++) {
-            final Uri uri = Uri.parse(mPlayList.get(i).url);
-            mediaSources[i] = new ExtractorMediaSource(uri,
+        if(mPlayList.size() == 1) {
+            final Uri uri = Uri.parse(mPlayList.get(0).url);
+            mediaSources[0] = new ExtractorMediaSource(uri,
                     new DataSource.Factory() {
                         @Override
                         public DataSource createDataSource() {
-                            RawResourceDataSource dataSource = new RawResourceDataSource(mContext);
+                            FileDataSource dataSource = new FileDataSource();
                             try {
                                 dataSource.open(new DataSpec(uri));
-                            } catch (RawResourceDataSource.RawResourceDataSourceException e) {
+                            } catch (FileDataSource.FileDataSourceException e) {
                                 Log.e(TAG, "createDataSource: ", e);
                             }
                             return dataSource;
@@ -340,13 +341,38 @@ public class ExoMusicPlayer implements MusicController, Player.EventListener,
                     },
                     defaultExtractorsFactory,
                     mHandler, this);
+        } else {
+            for (int i = 0; i < mPlayList.size(); i++) {
+                final Uri uri = Uri.parse(mPlayList.get(i).url);
+                mediaSources[i] = new ExtractorMediaSource(uri,
+                        new DataSource.Factory() {
+                            @Override
+                            public DataSource createDataSource() {
+                                RawResourceDataSource dataSource = new RawResourceDataSource(mContext);
+                                try {
+                                    dataSource.open(new DataSpec(uri));
+                                } catch (RawResourceDataSource.RawResourceDataSourceException e) {
+                                    Log.e(TAG, "createDataSource: ", e);
+                                }
+                                return dataSource;
+                            }
+                        },
+                        defaultExtractorsFactory,
+                        mHandler, this);
+            }
         }
+        Log.d(TAG, "createMediaSources: "+mediaSources.length);
         MediaSource mediaSource = mediaSources.length == 1 ? mediaSources[0]
                 : new ConcatenatingMediaSource(mediaSources);
         mPlayer.setRepeatMode(Player.REPEAT_MODE_ALL);
         mPlayer.prepare(mediaSource, true, true);
-        mPlayer.setPlayWhenReady(false);
-        mAutoPause = true;
+        if(mediaSources.length == 1) {
+            mPlayer.setPlayWhenReady(true);
+            mAutoPause = false;
+        } else {
+            mPlayer.setPlayWhenReady(false);
+            mAutoPause = true;
+        }
     }
 
     private void notifyPlayerStarted(boolean playWhenReady) {

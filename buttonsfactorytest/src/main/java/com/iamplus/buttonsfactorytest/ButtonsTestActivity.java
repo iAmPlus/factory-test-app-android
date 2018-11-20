@@ -204,7 +204,9 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             MusicService.LocalBinder binder = (MusicService.LocalBinder) iBinder;
             MusicService service = binder.getService();
             if(!mButtonsMediaTest.isDetached() && mButtonsMediaTest.isAdded())
-            mButtonsMediaTest.setMusicController(service.getMusicController());
+                mButtonsMediaTest.setMusicController(service.getMusicController());
+            if(!mStatusFragment.isDetached() && mStatusFragment.isAdded())
+                mStatusFragment.setMusicController(service.getMusicController());
         }
 
         @Override

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.iamplus.buttonsfactorytest.MusicController;
 import com.qualcomm.qti.libraries.assistant.Assistant;
 import com.qualcomm.qti.libraries.assistant.AssistantEnums;
 import com.qualcomm.qti.voiceassistant.Consts;
@@ -141,7 +142,7 @@ public class LoopbackAssistant implements Assistant, LoopbackPlayer.LoopbackPlay
 
             case AssistantEnums.AssistantState.IDLE:
                 setState(AssistantEnums.AssistantState.STARTING);
-                postStopRunnable();
+                //postStopRunnable();
                 setState(AssistantEnums.AssistantState.STREAMING);
                 mListener.startStreaming();
                 break;
@@ -247,6 +248,10 @@ public class LoopbackAssistant implements Assistant, LoopbackPlayer.LoopbackPlay
         return mState;
     }
 
+    @Override
+    public void setMusicController(MusicController musicController) {
+        mPlayer.setmusicController(musicController);
+    }
 
 
     @Override// Assistant
@@ -300,11 +305,12 @@ public class LoopbackAssistant implements Assistant, LoopbackPlayer.LoopbackPlay
      * starts to be played.</p>
      */
     private void playData() {
-        logState("play data");
-        setState(AssistantEnums.AssistantState.SPEAKING);
-        mListener.onStartPlayingResponse();
-        mPlayer.play(mDataQueue, mSize, mContext);
-        // start media playing
+        logState("play data" + mSize);
+        if(mSize > 0) {
+            setState(AssistantEnums.AssistantState.SPEAKING);
+            mListener.onStartPlayingResponse();
+            mPlayer.play(mDataQueue, mSize, mContext);
+        }// start media playing
     }
 
     /**

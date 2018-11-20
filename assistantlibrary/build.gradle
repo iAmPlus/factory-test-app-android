@@ -47,4 +47,5 @@ dependencies {
     // components
     implementation 'com.android.support:appcompat-v7:27.0.0'
     compile project(path: ':gaiacontrol-old')
+    compile project(path: ':buttonstestcommon')
 }

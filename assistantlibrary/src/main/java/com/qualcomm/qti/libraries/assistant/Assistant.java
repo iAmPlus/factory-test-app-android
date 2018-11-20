@@ -4,6 +4,8 @@
 
 package com.qualcomm.qti.libraries.assistant;
 
+import com.iamplus.buttonsfactorytest.MusicController;
+
 /**
  * <p>This interface defines the methods an assistant shall implement in order to communicate with a
  * {@link android.bluetooth.BluetoothDevice BluetoothDevice} which implements the Qualcomm assistant protocol and
@@ -84,6 +86,8 @@ public interface Assistant {
      * @return the current state of the Assistant as one of {@link AssistantEnums.AssistantState AssistantState}.
      */
     @AssistantEnums.AssistantState int getState();
+
+    void setMusicController(MusicController musicController);
 
     /**
      * <p>This is used by the Assistant to communicate instructions to the device.</p>

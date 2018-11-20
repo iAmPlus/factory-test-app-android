@@ -21,6 +21,7 @@ import android.support.annotation.IntDef;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.iamplus.buttonsfactorytest.MusicController;
 import com.qualcomm.qti.libraries.assistant.Assistant;
 import com.qualcomm.qti.libraries.assistant.AssistantEnums;
 import com.qualcomm.qti.libraries.assistant.AssistantManager;
@@ -129,6 +130,10 @@ public class VoiceAssistantService extends Service implements CallReceiver.CallL
 
     public void voiceEnd() {
         mAssistantManager.onReceivedEndUser();
+    }
+
+    public void setMusicController(MusicController musicController) {
+        mAssistantManager.setMusicController(musicController);
     }
 
 

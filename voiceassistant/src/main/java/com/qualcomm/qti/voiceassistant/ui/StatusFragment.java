@@ -30,6 +30,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iamplus.buttonsfactorytest.MusicController;
 import com.qualcomm.qti.libraries.assistant.AssistantEnums;
 import com.qualcomm.qti.voiceassistant.BuildConfig;
 import com.qualcomm.qti.voiceassistant.Consts;
@@ -396,7 +397,9 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
                 break;
         }
 
-        mSessionView.refreshValue(colour, progress, text);
+        if(mSessionView != null) {
+            mSessionView.refreshValue(colour, progress, text);
+        }
     }
 
     /**
@@ -423,6 +426,10 @@ public class StatusFragment extends Fragment implements Card.CardListener, View.
 
     public void voiceEnd() {
         if(mService != null) mService.voiceEnd();
+    }
+
+    public void setMusicController(MusicController musicController) {
+        mService.setMusicController(musicController);
     }
 
 
