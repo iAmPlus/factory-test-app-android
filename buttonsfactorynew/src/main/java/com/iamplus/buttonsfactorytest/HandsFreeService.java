@@ -86,9 +86,12 @@ public class HandsFreeService extends Service {
             BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
             final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_CONNECTION_STATE, -1);
             log("device state::"+state);
-            if (device != null && device.getName() != null && (device.getName().equalsIgnoreCase("Buttons with Omega")) ||
+            if (device != null && device.getName() != null &&
+                    (device.getName().equalsIgnoreCase("Buttons with Omega")) ||
                     (device.getName().equalsIgnoreCase("Buttons")) ||
-                    (device.getName().equalsIgnoreCase("Omega buttons"))) {
+                    (device.getName().equalsIgnoreCase("Omega buttons")) ||
+                    (device.getName().contains("Cleer HALO")) ||
+                    (device.getName().contains("Cleer FLOW"))) {
                 if (state == BluetoothAdapter.STATE_CONNECTED) {
                     log("device connected");
                     mController.setConnectedDevice(device);

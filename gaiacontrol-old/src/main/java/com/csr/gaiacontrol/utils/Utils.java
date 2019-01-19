@@ -282,6 +282,8 @@ public final class Utils {
         while (iterator.hasNext()) {
             BluetoothDevice item = iterator.next();
             if (item.getName().equalsIgnoreCase("Omega Buttons") ||
+                    (item.getName().contains("Cleer HALO")) ||
+                    (item.getName().contains("Cleer FLOW")) ||
                     item.getName().equalsIgnoreCase("Buttons with Omega") ||
                     item.getName().equalsIgnoreCase("Buttons")) {
                 connectedDevice = item;

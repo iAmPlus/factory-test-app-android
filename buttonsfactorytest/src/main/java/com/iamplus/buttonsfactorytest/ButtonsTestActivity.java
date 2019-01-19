@@ -169,15 +169,15 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             mFWVersionView.setText(version);
 
             mOmegaView.setVisibility(View.GONE);
-            mVAView.setVisibility(View.GONE);
+            mVAView.setVisibility(View.VISIBLE);
             mVoiceAView.setVisibility(View.GONE);
-            if(version.contains("4.")) {
+            /*if(version.contains("4.")) {
                 mVAView.setVisibility(View.VISIBLE);
             } else if(version.contains("3.")) {
                 mOmegaView.setVisibility(View.VISIBLE);
             } else if(version.contains("5.")) {
                 mVoiceAView.setVisibility(View.VISIBLE);
-            }
+            }*/
         }
 
         @Override
