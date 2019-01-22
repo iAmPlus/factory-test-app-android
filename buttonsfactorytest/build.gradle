@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion = '27.0.3'
     flavorDimensions "default"
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionName "1.0.18"
-        versionCode 118
+        versionName "1.0.20"
+        versionCode 120
         applicationId 'com.iamplus.buttonsfactorytest'
         multiDexEnabled true
         externalNativeBuild {

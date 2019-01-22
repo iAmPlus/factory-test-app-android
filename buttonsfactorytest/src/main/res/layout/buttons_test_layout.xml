@@ -163,6 +163,7 @@
 
             <FrameLayout
                 android:id="@+id/voiceassistant"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </FrameLayout>
@@ -190,7 +191,7 @@
                         android:layout_alignBaseline="@+id/testva"
                         android:layout_alignBottom="@+id/testva"
                         android:layout_alignParentStart="true"
-                        android:text="Voice Assistant triger" />
+                        android:text="Voice Assistant Trigger" />
 
                     <Switch
                         android:id="@+id/testva"

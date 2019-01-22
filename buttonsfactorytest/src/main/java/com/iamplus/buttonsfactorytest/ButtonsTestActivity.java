@@ -139,13 +139,14 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
             Log.d(TAG, "handleNotification: " + Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase());
             switch (event) {
                 case USER_ACTION:
-                    if (Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER1)) {
+                    if (Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER1)||
+                            Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER31)) {
                         mOmegaTestResult = true;
                         mVATestResult = true;
                         mOmegaTestToggle.setChecked(true);
                         mVATestToggle.setChecked(true);
                     } else if(Integer.toHexString(packet.getPayload()[2] & 0xff).toUpperCase().equals(Events.GAIA_USER2)) {
-                        mOmegaTestToggle.setChecked(false);
+                        mVATestToggle.setChecked(false);
                         mStatusFragment.voiceEnd();
                     }
                     break;
@@ -168,16 +169,18 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         public void onGetAppVersion(String version) {
             mFWVersionView.setText(version);
 
-            mOmegaView.setVisibility(View.GONE);
-            mVAView.setVisibility(View.VISIBLE);
-            mVoiceAView.setVisibility(View.GONE);
-            /*if(version.contains("4.")) {
-                mVAView.setVisibility(View.VISIBLE);
-            } else if(version.contains("3.")) {
-                mOmegaView.setVisibility(View.VISIBLE);
-            } else if(version.contains("5.")) {
-                mVoiceAView.setVisibility(View.VISIBLE);
-            }*/
+            if(BuildConfig.isInternal) {
+                mOmegaView.setVisibility(View.GONE);
+                mVAView.setVisibility(View.GONE);
+                mVoiceAView.setVisibility(View.GONE);
+                if(version.contains("4.")) {
+                    mVAView.setVisibility(View.VISIBLE);
+                } else if(version.contains("3.")) {
+                    mOmegaView.setVisibility(View.VISIBLE);
+                } else if(version.contains("5.")) {
+                    mVoiceAView.setVisibility(View.VISIBLE);
+                }
+            }
         }
 
         @Override
@@ -250,6 +253,7 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         mBatteryView = ((TextView) findViewById(R.id.battery));
 
         mOmegaView = findViewById(R.id.omegaView);
+        mOmegaView.setVisibility(View.VISIBLE);
         mVAView = findViewById(R.id.vaview);
         mVoiceAView = findViewById(R.id.voiceassistant);
         mHeaderView = findViewById(R.id.header);
@@ -264,11 +268,11 @@ public class ButtonsTestActivity extends Activity implements View.OnClickListene
         findViewById(R.id.radioDevFota).setOnClickListener(this);
 
         if(BuildConfig.isInternal) {
-            mHeaderView.setText("Buttons Internal Test");
+            mHeaderView.setText("Buttons Internal Test(Internal)");
             mNonOmegaView.setVisibility(View.VISIBLE);
         } else {
             mNonOmegaView.setVisibility(View.GONE);
-            mHeaderView.setText("Buttons Factory Test (China)");
+            mHeaderView.setText("Buttons Factory Test");
         }
         mOmegaTestToggle = (Switch) findViewById(R.id.testOmega);
         mOmegaTestToggle.setOnCheckedChangeListener(new ToggleButton.OnCheckedChangeListener() {

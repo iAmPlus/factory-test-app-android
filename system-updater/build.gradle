@@ -25,7 +25,6 @@ android {
     lintOptions {
         ignoreWarnings true
     }
-    buildToolsVersion '28.0.2'
 }
 
 dependencies {

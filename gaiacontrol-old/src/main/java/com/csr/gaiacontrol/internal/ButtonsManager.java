@@ -504,7 +504,7 @@ public class ButtonsManager {
 
                 int major = Integer.parseInt(majorVer.toString(), 16);
                 int minor = Integer.parseInt(minorVer.toString(), 16);
-                if(major < 6 && major > 1 && minor < 100 && minor > 0) {
+                if(major < 10 && major > 1 && minor < 100 && minor > 0) {
                     notifyAppVersionReceived(Integer.toString(major) + "." + Integer.toString(minor));
                 }
                 Log.i(TAG, "App version Full key: " + sb.toString().toUpperCase());
